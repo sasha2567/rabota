@@ -1,0 +1,189 @@
+html {
+	padding: 0 20px; 
+}
+
+#body {
+	margin: -8px 20px -80px;
+	width: 1050px;
+	background: url(images/fon.jpg) repeat-x 20px top;
+	background-size: contain;
+	padding: 0 25px;
+	text-align: center;
+}
+
+#icon {
+	padding: 20px;
+	float: left;
+	width: 250px;
+	text-align: center;
+}
+
+#icon img {
+	border: 1px solid #276680;
+	 height: 100px;
+}
+
+#icon span {
+	display: inline-block;
+	width: 180px;
+	background-color: #f0811a;
+	font-weight: bold;
+	color: #fff;
+	font-size: 110%;
+}
+
+#cont {
+	padding: 20px;
+	width: 650px;
+	float: right;
+}
+
+#cont table {
+	float: right;
+	margin-top: 20px;
+}
+
+#cont table tr td {
+	vertical-align: top;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+#geo {
+	font-size: 110%;
+}
+
+#geo img {
+	height: 18px;
+}
+
+#contact {
+	padding-top: 5px;
+	text-align: center;
+}
+
+#st {
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+.schedule {
+	font-style: italic;
+	font-weight: bold;
+	text-align: center;
+	float: none;
+}
+
+.clear, #telephone {
+	clear:both
+}
+
+#telephone {
+	width: 480px;
+	font-weight: bold;
+	font-size: 160%;
+	margin-left: 230px;
+	margin-top: 100px;
+}
+
+#menu {
+	float: left;
+	width: 80%;
+	padding: 0;
+}
+
+#menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#menu a {
+	font-weight: bold;
+	margin: 0 10px;
+	padding: 0 10px;
+	border-radius: 10px;
+	border: 1px solid #000;
+	color: #000;
+	font-family: Tahoma;
+	font-size: 13px;
+	float: left;
+	text-decoration: none;
+	background-color: #a2d9f7;
+}
+
+#container {
+	text-align: center;
+	margin-top: 80px;
+}
+
+#title {
+	font-style: normal;
+	font-size: 200%;
+	font-weight: bold;
+	color: #393185;
+}
+
+#container td span {
+	font-style: italic;
+	font-size: 120%;
+}
+
+#container table {
+	margin-top: 120px;
+	width: 100%;
+}
+
+#container img {
+	height: 80px;
+	width: 120px;
+	opacity: 0.5;
+	border: 1px solid #767a77;
+}
+
+#footer {
+	margin-top: 200px;
+	margin-bottom: 80px;
+}
+
+.first {
+	color: #00a0e3;
+	padding-right: 210px;
+}
+
+.first span {
+	border-bottom:solid 1px #ff0000;
+	font-size: 120%;
+}
+
+.second {
+	text-align: left;
+}
+
+.second ul {
+	list-style: none;
+	color: #2b2a29;
+	padding-left: 0;
+}
+
+.second li{
+	font-weight: bold;
+	margin-top: 5px;
+}
+
+.second span {
+	padding-top: 7px;
+}
+
+.two, #city {
+	padding-left: 20px;
+}
+
+#v {
+	font-weight: bold;
+	color: #666666;
+}
+
+#email img {
+	height: 12px;
+}

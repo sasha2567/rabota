@@ -1,0 +1,10 @@
+Main Hosting Details
+Control panel username 	runet_17234045
+Control panel password 	ghjcnjnf
+Control panel URL 	cpanel.500mb.net
+MySQL username 	runet_17234045
+MySQL password 	ghjcnjnf
+MySQL hostname 	sql212.500mb.net
+FTP username 	runet_17234045
+FTP password 	ghjcnjnf
+FTP host name 	ftp.500mb.net

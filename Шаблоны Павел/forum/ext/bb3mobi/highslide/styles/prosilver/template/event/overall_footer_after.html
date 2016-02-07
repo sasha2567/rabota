@@ -1,0 +1,35 @@
+<!-- IF S_VIEWTOPIC or S_IN_UCP or S_IN_POSTING -->
+<script type="text/javascript" src="{BOARD_URL}ext/bb3mobi/highslide/highslide-full.min.js"></script>
+<script type="text/javascript">
+hs.graphicsDir = '{BOARD_URL}ext/bb3mobi/highslide/graphics/';
+hs.align = 'center';
+hs.transitions = ['expand', 'crossfade'];
+hs.fadeInOut = true;
+hs.dimmingOpacity = 0.8;
+hs.outlineType = 'rounded-white';
+hs.captionEval = 'this.thumb.title';
+// This value needs to be set to false, to solve the issue with the highly increasing view counts.
+hs.continuePreloading = false;
+// Add the slideshow providing the controlbar and the thumbstrip
+hs.addSlideshow({
+	interval: 5000,
+	repeat: false,
+	useControls: true,
+	fixedControls: 'fit',
+	overlayOptions: {
+		opacity: .75,
+		position: 'top center',
+		hideOnMouseOut: true
+	}
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var scr_w = $(this).width();
+	var scr_h = $(this).height();
+	if (scr_w > 800 && scr_h > 600) {
+		$("dl.thumbnail a").addClass("highslide").attr("onclick", "return hs.expand(this)");
+	}
+});
+</script>
+<!-- ENDIF -->

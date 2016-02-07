@@ -1,0 +1,25 @@
+{
+    "name": "bb3mobi/highslide",
+    "type": "phpbb-extension",
+    "description": "phpBB 3.1 Extension Highslide",
+    "homepage": "http://bb3.mobi",
+    "version": "0.0.1",
+    "time": "2014-12-01",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Anvar",
+            "homepage": "http://apwa.ru",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "extra": {
+        "display-name": "Extension Highslide",
+        "soft-require": {
+		    "phpbb/phpbb": "3.1.*@dev"
+        }
+    }
+}

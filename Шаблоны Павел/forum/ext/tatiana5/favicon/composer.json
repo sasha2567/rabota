@@ -1,0 +1,28 @@
+{
+    "name": "tatiana5/favicon",
+    "type": "phpbb-extension",
+    "description": "Иконка сайта",
+    "homepage": "http://phpbbguru.net",
+    "version": "0.0.2",
+    "time": "2014-02-06",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Татьяна5",
+            "homepage": "http://phpbbguru.net",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpbb/epv": "dev-master"
+    },
+    "extra": {
+        "display-name": "Favicon",
+        "soft-require": {
+		    "phpbb/phpbb": "3.1.*@dev"
+        }
+    }
+}

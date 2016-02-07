@@ -1,0 +1,3 @@
+Use this URL to reset the Editor to your settings:
+
+http://highslide.com/editor/?config=%7B%22lang%22%3A+%22ru%22,+%22preset%22%3A+%22gallery-white%22,+%22alignment%22%3A+%22center%22,+%22numberOfImagesToPreload%22%3A+%22860%22,+%22enableGallery%22%3A+true,+%22controlsOffsetY%22%3A+-15,+%22numberPosition%22%3A+%22caption%22,+%22enableThumbstrip%22%3A+false,+%22slideshowRepeat%22%3A+true,+%22htmlWidth%22%3A+%22500%22,+%22htmlPrevious%22%3A+true,+%22htmlNext%22%3A+true,+%22htmlMove%22%3A+true%7D

@@ -1,0 +1,15 @@
+services:
+    pico.autodbbackup.cron.task.core.auto_db_backup:
+        class: pico\autodbbackup\cron\task\auto_db_backup
+        arguments:
+            - %core.root_path%
+            - %core.php_ext%
+            - @config
+            - @dbal.conn
+            - @dbal.tools
+            - @log
+            - @user
+        calls:
+            - [set_name, [pico.autodbbackup.cron.task.auto_db_backup]]
+        tags:
+            - { name: cron.task }
