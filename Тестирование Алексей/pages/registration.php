@@ -1,5 +1,6 @@
 <?php if(isset($_SESSION['login']))
-	header('Location: http://php.func/index.php/home');?>
+	header('Location: '.$_SESSION['base_url'].'/home');
+?>
 <!DOCTYPE html>
 <html>
 <head>

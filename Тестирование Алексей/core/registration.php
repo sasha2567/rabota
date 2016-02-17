@@ -24,7 +24,7 @@ class Registration {
 			$_SESSION["autorised"] = true;
 			header('Location: '.$_SESSION['base_url'].'/home');
 		}
-		header('Location: http://lib.rus.ec/b/204460/login');
+		header('Location: '.$_SESSION['base_url'].'/login');
 	}
 	
 	public function view(){

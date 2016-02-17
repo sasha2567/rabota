@@ -6,9 +6,8 @@ if (version_compare(phpversion(), '5.1.0', '<') == true) {
 include_once "config.php";
 
 session_start();
-$_SESSION['base_url'] = 'http://php.func/index.php';
-$_SESSION['page_url'] = 'http://php.func/pages';
-//unset($_SESSION['administration']);
+$_SESSION['base_url'] = 'http://testing/index.php';
+$_SESSION['page_url'] = 'http://testing/pages';
 
 /**
 * класс для определения целевой страницы

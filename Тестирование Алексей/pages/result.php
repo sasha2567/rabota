@@ -51,14 +51,14 @@
 						Ответ
 					</td>
 				</th>
-			<?php foreach ($result as $row) : ?>
+			<?php $proc = 0; foreach ($result as $row) : ?>
 				<tr>
 					<td>
 						<?php echo $row['question'];?>
 					</td>
 					<td <?php if ($row['answer_id'] != $row['correct_answer_id']) { ?> 
 							bgcolor="#FF0000" 
-						<?php } else { ?> 
+						<?php } else { $proc++; ?> 
 							bgcolor="#00FF00" 
 						<?php } ?>>
 						<?php echo $row['answer'];?>
@@ -66,6 +66,10 @@
 				</tr>
 			<?php endforeach; ?>
 			</table>
+			<hr>
+			<div id="proc">
+				<span>Процент правильности ответов: <?php echo ($proc / count($result)) * 100;?>%</span>
+			</div>
 			<?php else: // $tests ?>
 				<span>Предыдущий тест не найден</span>
 			<?php endif; // $tests ?>
