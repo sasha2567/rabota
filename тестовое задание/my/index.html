@@ -1,0 +1,165 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Velox - Free Html5 Portfolio One Page Template</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <!--        <link rel="stylesheet" href="assets/css/bootstrap-theme.min.css">-->
+
+
+        <!--For Plugins external css-->
+        <link rel="stylesheet" href="assets/css/plugins.css" />
+        <link rel="stylesheet" href="assets/css/lora-web-font.css" />
+        <link rel="stylesheet" href="assets/css/opensans-web-font.css" />
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+
+        <!--Theme custom css -->
+        <link rel="stylesheet" href="assets/css/style.css">
+
+        <!--Theme Responsive css-->
+        <link rel="stylesheet" href="assets/css/responsive.css" />
+
+        <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    </head>
+    <body data-spy="scroll" data-target="#main_navbar">
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+		<div class='preloader'><div class='loaded'>&nbsp;</div></div>
+        <nav class="navbar navbar-default navbar-fixed-top" id="main_navbar">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html"><img src="assets/images/logo.png" alt="logo" /></a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#home">Home</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <!--Home page style-->
+        <header id="home" class="home">
+            <div class="overlay">
+                <div class="container">
+                    <div class="row">
+                        <div class="home-wrapper">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="home-content text-center">
+                                    <h1>Тестовое задание в компанию Тензор</h1>
+                                    <h4>Задача JS – Анимированная сортировка</h4>
+                                    <a href="#" class="btn btn-primary">Демонстрания выполнения</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sections -->
+        <section id="service" class="service sections">
+            <div class="container">
+                <div class="heading text-center">
+                    <h1>Сортировка Пузырьком</h1>
+                    <div class="separator"></div>
+                </div>
+                <!-- Example row of columns -->
+                <div class="row">
+                    <div class="wrapper">
+                    	<p class="main-text">
+                    		Здесь Вам представляется возможность просмотреть один из вариантов сортировки "пузырьком" на случайно сгенерированной последовательности.<br /><br />Для начала необходимо выбрать длину последовательности, затем её сгененировать, и в последствии нажать кнопку "Выполнить сортировку". После чего на экране начнут сортироваться элементы выборки в порядке возрастания. Наслаждайтесь!!!))
+                    	</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="wrapper bubble-content">
+                        <div class="choose-length">
+                            <label>Длина выборки для сортировки</label>
+                            <br />
+                            <select id="arrayLength" class="u-full-width">
+                                <option value="0">Выберите длину выборки...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <br />
+                    	<button id="formation" class="button-primary" data-toggle="popover" title="Выберите длину последовательности" data-content="Для демонстрации работы алгоритма Вам необходимо выбрать длину последовательности.">Заполнить выборку</button>
+                        <br />
+                    	<button id="start" class="button-primary" data-toggle="popover" title="Вы не сгенерировали последовательность." data-content="Для демонстрации работы алгоритма Вам необходимо сгенерировать последовательности.">Выполнить сортировку</button>
+                    	<div id="array-output" class="output">
+                    		
+                    	</div>
+                        <div id="bubble-output" class="output">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /container -->       
+        </section>
+
+        <!--Footer-->
+        <footer id="footer" class="footer">
+            <div class="container">
+
+                <div class="scroll-top">
+
+                    <div class="scrollup">
+                        <i class="fa fa-angle-up"></i>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="copyright">
+                            <p>&copy; 2016 All Rights Reserved.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="social text-right">
+                            <a target="_blank" href="#"><i class="fa fa-facebook"></i></a>
+                            <a target="_blank" href="#"><i class="fa fa-twitter"></i></a>
+                            <a target="_blank" href="#"><i class="fa fa-instagram"></i></a>
+                            <a target="_blank" href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="assets/js/vendor/jquery-1.11.2.min.js"></script>
+        <script src="assets/js/vendor/bootstrap.min.js"></script>
+        <script src="assets/js/vendor/isotope.min.js"></script>
+        <script src="assets/js/plugins.js"></script>
+         <script src="assets/js/jquery.magnific-popup.js"></script>
+        <script src="assets/js/main.js"></script>
+        <script src="assets/js/bubble-sort.js"></script>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+<modification>
+        <id>Template for product in category (you can google it like this: "TFPIC OpenCart")</id>
+        <version>0.1</version>
+        <vqmver>2.1.6</vqmver>
+        <author>cmd</author>
+        <file name="catalog/controller/product/product.php">
+                <operation>
+                        <search position="before"><![CDATA[ 
+if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/product/product.tpl')) {							
+						]]></search>
+                        <add><![CDATA[
+if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/product/product-category-'.$path_id.'.tpl')) {
+				$this->template = $this->config->get('config_template') . '/template/product/product-category-'.$path_id.'.tpl';
+			} else {
+						]]></add>
+                </operation>
+        </file>
+		<file name="catalog/controller/product/product.php">
+                <operation>
+                        <search position="after"><![CDATA[ 
+$this->template = 'default/template/product/product.tpl';						
+						]]></search>
+                        <add><![CDATA[
+	}
+						]]></add>
+                </operation>
+        </file>	   
+</modification>

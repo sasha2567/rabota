@@ -1,0 +1,37 @@
+<?php  
+	$_['products_menu']  = 'Товары';
+	$_['designs_menu']  = 'Дизайны';
+	$_['edit_elements_menu']  = 'Редактировать элементы';
+	$_['fb_photos_menu']  = 'Добавить фотографии из Facebook';
+	$_['insta_photos_menu']  = 'Добавить фотографии из Instagram';
+	$_['edit_elements_headline']  = 'Редактировать элементы';
+	$_['edit_elements_dropdown_none']  = 'Пусто';
+	$_['section_filling']  = 'Заполнение';
+	$_['section_fonts_styles']  = 'Шрифты и стили';
+	$_['section_curved_text']  = 'Изогнутый текст';
+	$_['section_helpers']  = 'Помощник';
+	$_['customize_text_align_left']  = 'Выровнятьть по левому краю';
+	$_['customize_text_align_center']  = 'Выровнять по центру';
+	$_['customize_text_align_right']  = 'Выровнять по правому краю';
+	$_['customize_text_bold']  = 'Жирный';
+	$_['customize_text_italic']  = 'Курсив';
+	$_['curved_text_info']  = 'Вы можете изменить текст только тогда, когда вы переключаетесь в режим обычного текста.';
+	$_['curved_text_spacing']  = 'Интервал';
+	$_['curved_text_radius']  = 'Радиус';
+	$_['curved_text_reverse']  = 'Противоположный';
+	$_['curved_text_toggle']  = 'Переключение между изогнутым и обычным текстом';
+	$_['customize_center_h']  = 'Горизонтальное центрирование';
+	$_['customize_center_c']  = 'Вертикальное центрирование';
+	$_['customize_center_move_down']  = 'Переместить вниз';
+	$_['customize_center_move_up']  = 'Переместить вверх';
+	$_['customize_reset']  = 'Вернуть к оригиналу';
+	$_['customize_center_trash']  = 'Корзина';
+	$_['fb_photos_headline']  = 'Facebook фотографии';
+	$_['fb_select_friend']  = 'Выбрать друга';
+	$_['fb_select_album']  = 'Выбрать альбом';
+	$_['insta_photos_headline']  = 'Instagram фотографии';
+	$_['insta_feed_button']  = 'Мои материалы';
+	$_['insta_recent_images_button']  = 'Мои недавние изображения';
+	$_['insta_load_next']  = 'Загрузить следующий файл';
+	$_['text_select_product']  = 'Выбрать товар';
+?>
