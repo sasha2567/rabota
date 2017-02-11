@@ -95,40 +95,22 @@ int binread(char s[20]){
     data z;
     char s1[20]="*";
     ifstream fin(s, ios::binary);
-    if(!fin){cout<<"Файл не найден  "<<endl; getch(); return 0;}
+    if(!fin){cout<<"Файл не найден  "<<endl; getch(); return 0;}// если не удалось открыть файл
     if (!fin.eof()){
         fin.read(reinterpret_cast<char *>(&z),sizeof(data));
         p=new Rabochiy;
-        p->d.tabelnuy_nomer=z.tabelnuy_nomer;
-        strcpy(p->d.FIO,z.FIO);
-        p->d.god_rogdenya=z.god_rogdenya;
-        p->d.pol=z.pol;
-        strcpy(p->d.proffesia,z.proffesia);
-        p->d.stag_raboty=z.stag_raboty;
-        p->d.razrad=z.razrad;
-        p->d.nomer_ceha=z.nomer_ceha;
-        p->d.nomer_uchastka=z.nomer_uchastka;
-        p->d.zarplata=z.zarplata;
+        p->d=z;
         p->next=NULL;
         L=p;
-    }
+    }// считываем первую запись
 	while (!fin.eof()){
         R=p;
         fin.read(reinterpret_cast<char *>(&z),sizeof(data));
         p=new Rabochiy;
-        p->d.tabelnuy_nomer=z.tabelnuy_nomer;
-        strcpy(p->d.FIO,z.FIO);
-        p->d.god_rogdenya=z.god_rogdenya;
-        p->d.pol=z.pol;
-        strcpy(p->d.proffesia,z.proffesia);
-        p->d.stag_raboty=z.stag_raboty;
-        p->d.razrad=z.razrad;
-        p->d.nomer_ceha=z.nomer_ceha;
-        p->d.nomer_uchastka=z.nomer_uchastka;
-        p->d.zarplata=z.zarplata;
+        p->d=z;
         p->next=NULL;
         R->next=p;
-	}
+	}// считываем остальные записи
     fin.close();
     T=L;
     while(T->next->next != NULL){
@@ -146,14 +128,12 @@ int binwrite(char s[20]){
     P=new Rabochiy;
 	P=L;
 	FILE* f=fopen(s,"wb");
-	if(!f){cout<<"Файл не создан  "<<endl; getch(); return 0;}
-	while(P->next!=NULL){
+	if(!f){cout<<"Файл не создан  "<<endl; getch(); return 0;}// если не удалось открыть файл
+	while(P!=NULL){// пока не конец списка
 		z=P->d;
-		fwrite((data*)&z, sizeof(z), 1, f);
+		fwrite((data*)&z, sizeof(z), 1, f);// записать элемент в файл
 		P=P->next;
 	}
-	z=P->d;
-	fwrite((data*)&z, sizeof(z), 1, f);
     fclose(f);
     cout<<"Файл записан  "<<endl;
     getch();
@@ -165,7 +145,7 @@ int create(char s[20]){
     data z; int i=0;
     char s1[20]="*";
     ifstream fin(s, ios::in);
-	if(!fin){cout<<"Файл не найден"<<endl; getch(); return 0;}
+	if(!fin){cout<<"Файл не найден"<<endl; getch(); return 0;}// если не удалось открыть файл
 	if (!fin.eof()) {
 		fin>>z.tabelnuy_nomer;
 		fin>>z.FIO;
@@ -178,47 +158,29 @@ int create(char s[20]){
         fin>>z.nomer_uchastka;
 		fin>>z.zarplata;
 		p=new Rabochiy;
-		p->d.tabelnuy_nomer=z.tabelnuy_nomer;
-		strcpy(p->d.FIO,z.FIO);
-		p->d.god_rogdenya=z.god_rogdenya;
-        p->d.pol=z.pol;
-        strcpy(p->d.proffesia,z.proffesia);
-		p->d.stag_raboty=z.stag_raboty;
-		p->d.razrad=z.razrad;
-		p->d.nomer_ceha=z.nomer_ceha;
-		p->d.nomer_uchastka=z.nomer_uchastka;
-		p->d.zarplata=z.zarplata;
+		p->d=z;
         p->next=NULL;
 	    L=p;
         //------------------------------
-        }
-	    while (!fin.eof()){
-              R=p;
-              fin>>z.tabelnuy_nomer;
-		      fin>>z.FIO;
-		      fin>>z.god_rogdenya;
-		      fin>>z.pol;
-		      fin>>z.proffesia;
-              fin>>z.stag_raboty;
-              fin>>z.razrad;
-              fin>>z.nomer_ceha;
-              fin>>z.nomer_uchastka;
-		      fin>>z.zarplata;
-    		  p=new Rabochiy;
-              p->d.tabelnuy_nomer=z.tabelnuy_nomer;
-		      strcpy(p->d.FIO,z.FIO);
-		      p->d.god_rogdenya=z.god_rogdenya;
-              p->d.pol=z.pol;
-              strcpy(p->d.proffesia,z.proffesia);
-		      p->d.stag_raboty=z.stag_raboty;
-		      p->d.razrad=z.razrad;
-		      p->d.nomer_ceha=z.nomer_ceha;
-		      p->d.nomer_uchastka=z.nomer_uchastka;
-		      p->d.zarplata=z.zarplata;
-		      p->next=NULL;
-              R->next=p;
-              i++;
-        }
+    }// считываем первую запись
+    while (!fin.eof()){
+          R=p;
+          fin>>z.tabelnuy_nomer;
+          fin>>z.FIO;
+          fin>>z.god_rogdenya;
+          fin>>z.pol;
+          fin>>z.proffesia;
+          fin>>z.stag_raboty;
+          fin>>z.razrad;
+          fin>>z.nomer_ceha;
+          fin>>z.nomer_uchastka;
+          fin>>z.zarplata;
+          p=new Rabochiy;
+          p->d=z;
+          p->next=NULL;
+          R->next=p;
+          i++;
+    }// считываем остальные записи
 	fin.close();
 	T=L;
 	while(T->next->next != NULL){
@@ -236,12 +198,11 @@ int create(char s[20]){
 int writet(char s[20]){
 	data z;
 	char s1[20]="*";
-	//if(strsravn(s,s1)==0)return 0;
     P=new Rabochiy;
 	P=L;
 	ofstream fout(s, ios::out);
-	if(!fout){cout<<"Файл не создан"<<endl; getch(); return 0;}
-	while(P->next!=NULL){
+	if(!fout){cout<<"Файл не создан"<<endl; getch(); return 0;}// если не удалось открыть файл
+	while(P!=NULL){// пока не конец списка
 		z=P->d;
         fout<<z.tabelnuy_nomer<<endl;
         fout<<z.FIO<<endl;
@@ -253,20 +214,9 @@ int writet(char s[20]){
         fout<<z.nomer_ceha<<endl;
         fout<<z.nomer_uchastka<<endl;
         fout<<z.zarplata<<endl;
-        fout<<endl;
+        fout<<endl;// запись в файл данных о работнике
 		P=P->next;
 	}
-	z=P->d;
-    fout<<z.tabelnuy_nomer<<endl;
-    fout<<z.FIO<<endl;
-    fout<<z.god_rogdenya<<endl;
-    fout<<z.pol<<endl;
-    fout<<z.proffesia<<endl;
-    fout<<z.stag_raboty<<endl;
-    fout<<z.razrad<<endl;
-    fout<<z.nomer_ceha<<endl;
-    fout<<z.nomer_uchastka<<endl;
-    fout<<z.zarplata<<endl;
 
     fout.close();
     cout<<"Файл записан"<<endl;
@@ -423,7 +373,7 @@ int write_spisok(){
 
 //---------------------------------------
 // вырисовка низа таблицы
-void table_niz(){
+void table_niz(bool flag = false){
     cout<<c8;
     for(int ii=0; ii<4; ii++)cout<<c7;
     cout<<c3;
@@ -445,7 +395,9 @@ void table_niz(){
     cout<<c3;
     for(int ii=0; ii<7; ii++)cout<<c7;
     cout<<c6<<endl;
-    cout<<"Навигация ";cout<<(char)24<<" и ";cout<<(char)25<<c<<"Редактирования - Enter"<<c<<"Поиск Ctrl+F"<<c<<"Сортировка Ctrl+S"<<c<<"Выход Esc";
+    if(!flag){
+        cout<<"Навигация ";cout<<(char)24<<" и ";cout<<(char)25<<c<<"Редактирования - Enter"<<c<<"Поиск Ctrl+F"<<c<<"Сортировка Ctrl+S"<<c<<"Выход Esc";
+    }
 }
 
 //---------------------------------------------------
@@ -506,9 +458,9 @@ void scroll(Rabochiy *T,int k,Rabochiy *ee){
     int i=1;
     Rabochiy *t=new Rabochiy;
     t=T;
-    while(t!=NULL && i<=17)
+    while(t!=NULL && i<=17)// цикл на вывод данных
     {
-        if(i==k){setcolor(0,15); ee->d=t->d;} else setcolor(15,0);
+        if(i==k){setcolor(0,15); ee->d=t->d;} else setcolor(15,0);// подсветка текущего выбранного пункта
         cout<<c<<setw(3)<<t->d.tabelnuy_nomer<<" "<<c<<setw(21)<<t->d.FIO;
         cout<<" "<<c<<setw(5)<<t->d.god_rogdenya<<" "<<c;
         if(t->d.pol==1)cout<<setw(2)<<"m"; else cout<<setw(2)<<"w";
@@ -530,7 +482,6 @@ int redakt(Rabochiy *W){
         system("cls");
         puts("Введите данные");
         cout<<endl;
-
         cout<<"ФИО : "; cout<<W->d.FIO<<endl;
         cout<<"Год рождения : "; cout<<W->d.god_rogdenya<<endl;
         cout<<"Пол[0-м/1-ж] : "; cout<<W->d.pol<<endl;
@@ -540,178 +491,205 @@ int redakt(Rabochiy *W){
         cout<<"Номер цеха : "; cout<<W->d.nomer_ceha<<endl;
         cout<<"Номер участка : "; cout<<W->d.nomer_uchastka<<endl;
         cout<<"Зарплата : "; cout<<W->d.zarplata<<endl;
-        cout<<"Для навигации "<<(char)24<<" и "<<(char)25<<" "<<c<<" Для выбора и ввода Enter"<<endl;
+        cout<<"Для навигации "<<(char)24<<" и "<<(char)25<<" "<<c<<" Для выбора - Tab и ввода - Enter"<<endl;// вывод на печать заголовка для редактирования
         switch(i){
-            case 2:
+            case 2:// редактирование ФИО
                 gotoxy(0,2);
                 setcolor(0,15);
                 cout<<"ФИО";
                 setcolor(15,0);
                 cout<<" : ";
-                if(f2 == 0){if( (ch=getch()) == 13){cout<<"                          ";
-                                                    gotoxy(6,2);
-                                                    fflush(stdin);
-                                                    cin.getline(W->d.FIO,22);
-                                                    fflush(stdin);
-                                                    cout<<endl;
-                                                    f2=1;}
-                                                    }
+                if(f2 == 0){
+                    if( (ch=getch()) == 9){
+                        cout<<"                          ";
+                        gotoxy(6,2);
+                        fflush(stdin);
+                        cin.getline(W->d.FIO,22);
+                        fflush(stdin);
+                        cout<<endl;
+                        f2=1;
+                    }
+                }
                 else cout<<W->d.FIO<<endl;
 
                 setcolor(15,0);
             break;
-            case 3:
+            case 3:// редактирование года рождения
                 gotoxy(0,3);
                 setcolor(0,15);
                 cout<<"Год рождения";
                 setcolor(15,0);
                 cout<<" : ";
-                if(f3 == 0){if( (ch=getch()) == 13){cout<<"                          ";
-                                                    gotoxy(14,3);
-                                                    fflush(stdin);
-                                                    scanf("%4s",&s);
-                                                    fflush(stdin);
-                                                    W->d.god_rogdenya=atoi(s);
-                                                    cout<<endl;
-                                                    f3=1;}
-                                                    }
+                if(f3 == 0){
+                	if( (ch=getch()) == 9){
+                		cout<<"                          ";
+                        gotoxy(14,3);
+                        fflush(stdin);
+                        scanf("%4s",&s);
+                        fflush(stdin);
+                        W->d.god_rogdenya=atoi(s);
+                        cout<<endl;
+                        f3=1;
+                    }
+                }
                 else cout<<W->d.god_rogdenya<<endl;
 
                 setcolor(15,0);
             break;
-            case 4:
+            case 4:// редактирование пола работника
                 gotoxy(0,4);
                 setcolor(0,15);
                 cout<<"Пол[0-м/1-ж]";
                 setcolor(15,0);
                 cout<<" : ";
-                if(f4 == 0){if( (ch=getch()) == 13){cout<<"                          ";
-                                                    gotoxy(15,4);
-                                                    fflush(stdin);
-                                                    scanf("%1s",&s);
-                                                    fflush(stdin);
-                                                    W->d.pol=atoi(s);
-                                                    if(W->d.pol<1)W->d.pol=1;
-                                                    if(W->d.pol>2)W->d.pol=2;
-                                                    cout<<endl;
-                                                    f4=1;}
-                                                    }
+                if(f4 == 0){
+                	if( (ch=getch()) == 9){
+                		cout<<"                          ";
+			            gotoxy(15,4);
+			            fflush(stdin);
+			            scanf("%1s",&s);
+			            fflush(stdin);
+			            W->d.pol=atoi(s);
+			            if(W->d.pol<1)W->d.pol=1;
+			            if(W->d.pol>2)W->d.pol=2;
+			            cout<<endl;
+			            f4=1;
+			        }
+                }
                 else cout<<W->d.pol<<endl;
 
                 setcolor(15,0);
             break;
-            case 5:
+            case 5:// редактирование профессии
                 gotoxy(0,5);
                 setcolor(0,15);
                 cout<<"Профессия";
                 setcolor(15,0);
                 cout<<" : ";
-                if(f5 == 0){if( (ch=getch()) == 13){cout<<"                          ";
-                                                    gotoxy(12,5);
-                                                    fflush(stdin);
-                                                    cin.getline(W->d.proffesia,10);
-                                                    fflush(stdin);
-                                                    cout<<endl;
-                                                    f5=1;}
-                                                    }
+                if(f5 == 0){
+                	if( (ch=getch()) == 9){
+                		cout<<"                          ";
+                        gotoxy(12,5);
+                        fflush(stdin);
+                        cin.getline(W->d.proffesia,10);
+                        fflush(stdin);
+                        cout<<endl;
+                        f5=1;
+                    }
+                }
                 else cout<<W->d.proffesia<<endl;
 
                 setcolor(15,0);
             break;
-            case 6:
+            case 6:// редактирование стажа работы
                 gotoxy(0,6);
                 setcolor(0,15);
                 cout<<"Стаж работы";
                 setcolor(15,0);
                 cout<<" : ";
-                if(f6 == 0){if( (ch=getch()) == 13){cout<<"                          ";
-                                                    gotoxy(14,6);
-                                                    fflush(stdin);
-                                                    scanf("%3s",&s);
-                                                    fflush(stdin);
-                                                    W->d.stag_raboty=atoi(s);
-                                                    cout<<endl;
-                                                    f6=1;}
-                                                    }
+                if(f6 == 0){
+                	if( (ch=getch()) == 9){
+                		cout<<"                          ";
+		                gotoxy(14,6);
+		                fflush(stdin);
+		                scanf("%3s",&s);
+		                fflush(stdin);
+		                W->d.stag_raboty=atoi(s);
+		                cout<<endl;
+		                f6=1;
+		            }
+                }
                 else cout<<W->d.stag_raboty<<endl;
 
                 setcolor(15,0);
             break;
-            case 7:
+            case 7:// редактирование разряда
                 gotoxy(0,7);
                 setcolor(0,15);
                 cout<<"Разряд[1/2/3]";
                 setcolor(15,0);
                 cout<<" : ";
-                if(f7 == 0){if( (ch=getch()) == 13){cout<<"                          ";
-                                                    gotoxy(16,7);
-                                                    fflush(stdin);
-                                                    scanf("%3s",&s);
-                                                    fflush(stdin);
-                                                    W->d.razrad==atoi(s);
-                                                    if(W->d.razrad<1)W->d.razrad=1;
-                                                    if(W->d.razrad>3)W->d.razrad=3;
-                                                    cout<<endl;
-                                                    f7=1;}
-                                                    }
+                if(f7 == 0){
+                	if( (ch=getch()) == 9){
+                		cout<<"                          ";
+	                    gotoxy(16,7);
+	                    fflush(stdin);
+	                    scanf("%3s",&s);
+	                    fflush(stdin);
+	                    W->d.razrad==atoi(s);
+	                    if(W->d.razrad<1)W->d.razrad=1;
+	                    if(W->d.razrad>3)W->d.razrad=3;
+	                    cout<<endl;
+	                    f7=1;
+	                }
+                   }
                 else cout<<W->d.razrad<<endl;
 
                 setcolor(15,0);
             break;
-            case 8:
+            case 8:// редактирование номера цеха
                 gotoxy(0,8);
                 setcolor(0,15);
                 cout<<"Номер цеха";
                 setcolor(15,0);
                 cout<<" : ";
-                if(f8 == 0){if( (ch=getch()) == 13){cout<<"                          ";
-                                                    gotoxy(13,8);
-                                                    fflush(stdin);
-                                                    scanf("%3s",&s);
-                                                    fflush(stdin);
-                                                    W->d.nomer_ceha==atoi(s);
-                                                    cout<<endl;
-                                                    f8=1;}
-                                                    }
+                if(f8 == 0){
+                	if( (ch=getch()) == 9){
+                		cout<<"                          ";
+                        gotoxy(13,8);
+                        fflush(stdin);
+                        scanf("%3s",&s);
+                        fflush(stdin);
+                        W->d.nomer_ceha==atoi(s);
+                        cout<<endl;
+                        f8=1;
+                    }
+                }
                 else cout<<W->d.nomer_ceha<<endl;
 
                 setcolor(15,0);
             break;
-            case 9:
+            case 9:// редактирование номера участка
                 gotoxy(0,9);
                 setcolor(0,15);
                 cout<<"Номер участка";
                 setcolor(15,0);
                 cout<<" : ";
-                if(f9 == 0){if( (ch=getch()) == 13){cout<<"                          ";
-                                                    gotoxy(16,9);
-                                                    fflush(stdin);
-                                                    scanf("%3s",&s);
-                                                    fflush(stdin);
-                                                    W->d.nomer_uchastka==atoi(s);
-                                                    cout<<endl;
-                                                    f9=1;}
-                                                    }
+                if(f9 == 0){
+                	if( (ch=getch()) == 9){
+                		cout<<"                          ";
+                        gotoxy(16,9);
+                        fflush(stdin);
+                        scanf("%3s",&s);
+                        fflush(stdin);
+                        W->d.nomer_uchastka==atoi(s);
+                        cout<<endl;
+                        f9=1;
+                    }
+                }
                 else cout<<W->d.nomer_uchastka<<endl;
 
                 setcolor(15,0);
             break;
-            case 10:
+            case 10:// редактирование зарплаты
                 gotoxy(0,10);
                 setcolor(0,15);
                 cout<<"Зарплата";
                 setcolor(15,0);
                 cout<<" : ";
-                if(f10 == 0){if( (ch=getch()) == 13){cout<<"                          ";
-                                                     gotoxy(11,10);
-                                                     fflush(stdin);
-                                                     scanf("%6s",&s);
-                                                     fflush(stdin);
-                                                     W->d.zarplata=atof(s);
-                                                     if(W->d.zarplata<1)W->d.zarplata=1;
-                                                     cout<<endl;
-                                                     f10=1;}
-                                                     }
+                if(f10 == 0){
+                    if( (ch=getch()) == 9){
+                        cout<<"                          ";
+                        gotoxy(11,10);
+                        fflush(stdin);
+                        scanf("%6s",&s);
+                        fflush(stdin);
+                        W->d.zarplata=atof(s);
+                        if(W->d.zarplata<1)W->d.zarplata=1;
+                        cout<<endl;
+                        f10=1;
+                    }
+                }
                 else cout<<W->d.zarplata<<endl;
 
                 setcolor(15,0);
@@ -719,6 +697,7 @@ int redakt(Rabochiy *W){
 
         }
         ch=getch();
+        // переключение между пунктами меню
         if(ch == 72)
             if(i >= 3)
                 i--;
@@ -741,7 +720,7 @@ void view(){
 	Rabochiy *ww;
 	int j;
 	system("cls");
-	if(L==NULL){
+	if(L==NULL){// Если список ауст вывести информацию об этом
         gotoxy(34,11);
         cout<<"Список пуст"<<endl;
         getch();
@@ -753,12 +732,12 @@ void view(){
 	int kount=1;
 	T=L;
 	ww=L;
-    while(T->next!=NULL)
+    while(T->next!=NULL)// пока не конец списка
     {
         kount++;
         T=T->next;
     }
-    if(kount<=17)
+    if(kount<=17)// проверка на количество элементов в списке
         while(ww->next!=NULL)
             ww=ww->next;
     else
@@ -770,11 +749,13 @@ void view(){
     p=L;
     while(1){
         gotoxy(0,5);
-        scroll(p,i,ee);
-        if(kount<=17)gotoxy(0,kount+5);
-        else gotoxy(0,17+5);
+        scroll(p,i,ee);//вывод элементов на экран
+        if(kount<=17)
+            gotoxy(0,kount+5);
+        else
+            gotoxy(0,17+5);
         setcolor(15,0);
-        table_niz();
+        table_niz(false);
         ch=getch();
         if(ch == 72)
             if(i >= 2)
@@ -783,17 +764,16 @@ void view(){
         if(ch == 80)
             if(i<=16)
                 i++;
-        if(i <= kount && kount <= 17)i=i;
-        if(i >= kount && kount <= 17)i=kount;
+        if(i >= kount && kount <= 17)i=kount;// изменение значений для прорисовки элементов
 
-        if(i == 17 && kount>17 && p != ww ){ p=p->next; i--;}
+        if(i == 17 && kount>17 && p != ww ){ p=p->next; i--;}// изменение значений для прорисовки элементов
 
-        if(i == 17 && kount>17 && p == ww ){
+        if(i == 17 && kount>17 && p == ww ){// изменение значений для прорисовки элементов
             i=17;
             p=ww;
-            }
+        }
 
-        if(i ==  1 && p != L  ){
+        if(i ==  1 && p != L  ){// изменение значений для прорисовки элементов
             T=L;
             while(T->next!=p)
                 T=T->next;
@@ -801,17 +781,14 @@ void view(){
             i++;
         }
 
-        if(i ==  1 && p == L){i=i; p=L;}
-
         if(ch == 27)
             return;
-        if(ch == 6)
-            {
+        if(ch == 6){// если был выбран пункт поиска
             poisk();
             system("cls");
             table();
-            }
-        if(ch == 13){
+        }
+        if(ch == 13){// если был выбран пункт редактирования
             redakt(ee);
             T=L;
             while(T->d.tabelnuy_nomer < ee->d.tabelnuy_nomer)
@@ -820,7 +797,7 @@ void view(){
             system("cls");
             table();
         }
-        if(ch == 19){
+        if(ch == 19){// если был выбран пункт сортировки
             sortirovka();
             system("cls");
             table();
@@ -844,15 +821,16 @@ void add(){
 	z.pol=1;
 	z.razrad=0;
 	z.stag_raboty=0;
-	z.zarplata=0;
-	for(int j=0; j<19; j++)
+	z.zarplata=0;// создаем пустую структуру для ввода данных
+	for(int j=0; j<22; j++)// очищаем ФИО
         z.FIO[j]=' ';
-	for(int j=0; j<19; j++)
+	for(int j=0; j<10; j++)// очищаем профессию
 		z.proffesia[j]=' ';
 	Rabochiy *f;
 	while(1){
         system("cls");
         puts("Введите данные");
+        //cout<<endl;
         cout<<"Табельный номер : ";if(f1 == 1) cout<<z.tabelnuy_nomer<<endl; else cout<<endl;
         cout<<"ФИО : ";if(f2 == 1) cout<<z.FIO<<endl; else cout<<endl;
         cout<<"Год рождения : ";if(f3 == 1) cout<<z.god_rogdenya<<endl; else cout<<endl;
@@ -863,181 +841,162 @@ void add(){
         cout<<"Номер цеха : ";if(f8 == 1) cout<<z.nomer_ceha<<endl; else cout<<endl;
         cout<<"Номер участка : ";if(f9 == 1) cout<<z.nomer_uchastka<<endl; else cout<<endl;
         cout<<"Зарплата : ";if(f10 == 1) cout<<z.zarplata<<endl; else cout<<endl;
-        cout<<"Для навигации "<<(char)24<<" и "<<(char)25<<" "<<c<<" Для выбора и ввода Enter"<<endl;
+        cout<<"Для навигации "<<(char)24<<" и "<<(char)25<<" "<<c<<" Для выбора - Tab и ввода - Enter"<<endl;// отрисовываем пункты для добавления записи
         switch(i){
-            case 1:
-                gotoxy(15,0);
+            case 1:// ввод табельного номера
+                gotoxy(0,1);
                 setcolor(0,15);
                 cout<<"Табельный номер : ";
-                if(f1 == 0){if( (ch=getch()) == 13){fflush(stdin); scanf("%3s",&s);z.tabelnuy_nomer=atoi(s); fflush(stdin); cout<<endl; f1=1;}}
+                if(f1 == 0){if( (ch=getch()) == 9){fflush(stdin); scanf("%3s",&s);z.tabelnuy_nomer=atoi(s); fflush(stdin); cout<<endl; f1=1;}}
                 else cout<<z.tabelnuy_nomer<<endl;
-
                 setcolor(15,0);
             break;
-            case 2:
+            case 2:// ввод ФИО рабочего
                 gotoxy(0,2);
                 setcolor(0,15);
                 cout<<"ФИО : ";
-                if(f2 == 0){if( (ch=getch()) == 13){fflush(stdin); cin.getline(s,22);strcpy(z.FIO,s); fflush(stdin); cout<<endl; f2=1;}}
+                if(f2 == 0){if( (ch=getch()) == 9){fflush(stdin); cin.getline(s,22);strcpy(z.FIO,s); fflush(stdin); cout<<endl; f2=1;}}
                 else cout<<z.FIO<<endl;
-
                 setcolor(15,0);
             break;
-            case 3:
+            case 3:// ввод года рождения
                 gotoxy(0,3);
                 setcolor(0,15);
                 cout<<"Год рождения : ";
-                if(f3 == 0){if( (ch=getch()) == 13){fflush(stdin); scanf("%4s",&s);z.god_rogdenya=atoi(s); fflush(stdin); cout<<endl; f3=1;}}
+                if(f3 == 0){if( (ch=getch()) == 9){fflush(stdin); scanf("%4s",&s);z.god_rogdenya=atoi(s); fflush(stdin); cout<<endl; f3=1;}}
                 else cout<<z.god_rogdenya<<endl;
-
                 setcolor(15,0);
             break;
-            case 4:
+            case 4:// ввод пола рабочего
                 gotoxy(0,4);
                 setcolor(0,15);
-                cout<<"Пол[1-м/2-ж] : ";
-                if(f4 == 0){if( (ch=getch()) == 13){fflush(stdin); scanf("%1s",&s);z.pol=atoi(s); fflush(stdin); cout<<endl; f4=1;}}
+                cout<<"Пол[0-м/1-ж] : ";
+                if(f4 == 0){if( (ch=getch()) == 9){fflush(stdin); scanf("%1s",&s);z.pol=atoi(s); fflush(stdin); cout<<endl; f4=1;}}
                 else cout<<z.pol<<endl;
-
                 setcolor(15,0);
             break;
-            case 5:
+            case 5:// ввод профессии
                 gotoxy(0,5);
                 setcolor(0,15);
                 cout<<"Профессия : ";
-                if(f5 == 0){if( (ch=getch()) == 13){fflush(stdin); cin.getline(s,10);strcpy(z.proffesia,s); fflush(stdin); cout<<endl; f5=1;}}
+                if(f5 == 0){if( (ch=getch()) == 9){fflush(stdin); cin.getline(s,10);strcpy(z.proffesia,s); fflush(stdin); cout<<endl; f5=1;}}
                 else cout<<z.proffesia<<endl;
-
                 setcolor(15,0);
             break;
-            case 6:
+            case 6:// ввод стажа работы
                 gotoxy(0,6);
                 setcolor(0,15);
                 cout<<"Стаж работы : ";
-                if(f6 == 0){if( (ch=getch()) == 13){fflush(stdin); scanf("%3s",&s);z.stag_raboty=atoi(s);  fflush(stdin); cout<<endl; f6=1;}}
+                if(f6 == 0){if( (ch=getch()) == 9){fflush(stdin); scanf("%3s",&s);z.stag_raboty=atoi(s);  fflush(stdin); cout<<endl; f6=1;}}
                 else cout<<z.stag_raboty<<endl;
-
                 setcolor(15,0);
             break;
-            case 7:
+            case 7:// ввод разряда
                 gotoxy(0,7);
                 setcolor(0,15);
                 cout<<"Разряд[1/2/3] : ";
-                if(f7 == 0){if( (ch=getch()) == 13){fflush(stdin); scanf("%1s",&s);z.razrad=atoi(s);  fflush(stdin); cout<<endl; f7=1;}}
+                if(f7 == 0){if( (ch=getch()) == 9){fflush(stdin); scanf("%1s",&s);z.razrad=atoi(s);  fflush(stdin); cout<<endl; f7=1;}}
                 else cout<<z.razrad<<endl;
-
                 setcolor(15,0);
             break;
-            case 8:
+            case 8:// ввод номера цеха
                 gotoxy(0,8);
                 setcolor(0,15);
                 cout<<"Номер цеха : ";
-                if(f8 == 0){if( (ch=getch()) == 13){fflush(stdin); scanf("%2s",&s);z.nomer_ceha=atoi(s);  fflush(stdin); cout<<endl; f8=1;}}
+                if(f8 == 0){if( (ch=getch()) == 9){fflush(stdin); scanf("%2s",&s);z.nomer_ceha=atoi(s);  fflush(stdin); cout<<endl; f8=1;}}
                 else cout<<z.nomer_ceha<<endl;
-
                 setcolor(15,0);
             break;
-            case 9:
+            case 9:// ввод номера участка
                 gotoxy(0,9);
                 setcolor(0,15);
                 cout<<"Номер участка : ";
-                if(f9 == 0){if( (ch=getch()) == 13){fflush(stdin); scanf("%2s",&s);z.nomer_uchastka=atoi(s);  fflush(stdin); cout<<endl; f9=1;}}
+                if(f9 == 0){if( (ch=getch()) == 9){fflush(stdin); scanf("%2s",&s);z.nomer_uchastka=atoi(s);  fflush(stdin); cout<<endl; f9=1;}}
                 else cout<<z.nomer_uchastka<<endl;
-
                 setcolor(15,0);
             break;
-            case 10:
+            case 10:// ввод зарплаты
                 gotoxy(0,10);
                 setcolor(0,15);
                 cout<<"Зарплата : ";
-                if(f10 == 0){if( (ch=getch()) == 13){fflush(stdin); scanf("%6s",&s);z.zarplata=atof(s);  fflush(stdin); cout<<endl; f10=1;}}
+                if(f10 == 0){if( (ch=getch()) == 9){fflush(stdin); scanf("%6s",&s);z.zarplata=atof(s);  fflush(stdin); cout<<endl; f10=1;}}
                 else cout<<z.zarplata<<endl;
-
                 setcolor(15,0);
             break;
 
         }
         ch=getch();
-        if(ch == 72)
+        if(ch == 72)// изменение выбранного поля для ввода данных - стрелка вверх
             if(i >= 2)
                 i--;
-        if(ch == 80)
+        if(ch == 80)// изменение выбранного поля для ввода данных - стрелка вниз
             if(i <= 9)
                 i++;
         if(ch == 27)break;
     }
     int fl=0,j=0;
     p=new Rabochiy;
-    p->d.tabelnuy_nomer=z.tabelnuy_nomer;
-    strcpy(p->d.FIO,z.FIO);
-    p->d.god_rogdenya=z.god_rogdenya;
-    p->d.pol=z.pol;
-    strcpy(p->d.proffesia,z.proffesia);
-    p->d.stag_raboty=z.stag_raboty;
-    p->d.razrad=z.razrad;
-    p->d.nomer_ceha=z.nomer_ceha;
-    p->d.nomer_uchastka=z.nomer_uchastka;
-    p->d.zarplata=z.zarplata;
+    p->d=z;
     p->next=NULL;
-	f=new Rabochiy;
-	if(L==NULL){
+	if(L==NULL){// если список пуст
         L=p;
         return;
     }
+    f=new Rabochiy;
     T=L;
     if(L->d.tabelnuy_nomer==z.tabelnuy_nomer)fl=1;
     Rabochiy *ww;
-    while(T->next != NULL){
-        if(T->next->d.tabelnuy_nomer==z.tabelnuy_nomer){fl=1; ww=T;}
+    while (T->next != NULL) {// пока не конец списка
+        if (T->next->d.tabelnuy_nomer==z.tabelnuy_nomer) {// если элемент с таким табельным номером существует
+            fl=1;
+            ww=T;
+        }
         T=T->next;
     }
-    if(T->d.tabelnuy_nomer==z.tabelnuy_nomer)fl=1;
-
-    if(fl==1){
+    if (T->d.tabelnuy_nomer==z.tabelnuy_nomer || fl == 1) {// Если элемент с таким табелтным номером существует
         gotoxy(0,12);
         cout<<"Такой элеметн существует.  Добавлять?"<<endl;
         gotoxy(0,13);setcolor(0,15);cout<<" Да(Замена старого) ";setcolor(15,0);cout<<" Нет(Выход) "<<endl;
         while(1){
             ch=getch();
-            if(ch==75){gotoxy(0,13);setcolor(0,15);cout<<" Да(Замена старого) ";setcolor(15,0);cout<<" Нет(Выход) "<<endl;j=0;}
-            if(ch==77){gotoxy(0,13);setcolor(15,0);cout<<" Да(Замена старого) ";setcolor(0,15);cout<<" Нет(Выход) "<<endl;j=1;}
+            if(ch==75){gotoxy(0,13);setcolor(0,15);cout<<" Да(Замена старого) ";setcolor(15,0);cout<<" Нет(Выход) "<<endl;j=1;}
+            if(ch==77){gotoxy(0,13);setcolor(15,0);cout<<" Да(Замена старого) ";setcolor(0,15);cout<<" Нет(Выход) "<<endl;j=2;}
             if(ch==13){
-                if(j==0){
-                    if(L->d.tabelnuy_nomer==z.tabelnuy_nomer){
-                        f=L;
-                        L=L->next;
-                        delete f;
+                if(j==1){
+                    if(L->d.tabelnuy_nomer==z.tabelnuy_nomer){// если изменяемый элемент - голова списка
+                        L->d=z;
+                        flag=1;
+                        break;
                     }
-                    else{
-                        f=ww->next;
-                        ww->next=ww->next->next;
-                        delete f;
+                    else{// если изменяемый элемент в середине списка
+                        ww->d=z;
+                        flag=1;
+                        break;
                     }
-                    setcolor(15,0);
                 }
                 else {
                     flag=1;
-                    setcolor(15,0);
                 }
                 break;
             }
         }
+        setcolor(15,0);
         if(flag==1)
             return;
     }
 
 	f=L;
     T=NULL;
-    while(f!=NULL){
-        if (p->d.tabelnuy_nomer < f->d.tabelnuy_nomer)
+    while(f!=NULL){// пока не конец списка
+        if (p->d.tabelnuy_nomer < f->d.tabelnuy_nomer)// изменяем указатель для нахождения места добавления элемента
             break;
         else T=f;
             f=f->next;
     }
-    if (f==L){
+    if (f==L){// если элемент нужно установить в начало списка
         p->next=L;
         L=p;
-    } else {
+    } else {// если элемент нужно установить в середину списка
         p->next=f;
         T->next=p;
     }
@@ -1052,7 +1011,7 @@ void udal(int x){
 	T=L;
     R=L;
 	int i=0;
-    if(x==L->d.tabelnuy_nomer){
+    if(x==L->d.tabelnuy_nomer){// если удаляем первый элемент
         p=L;
         L=L->next;
         delete p;
@@ -1060,14 +1019,14 @@ void udal(int x){
         getch();
         return;
     }
-    else{
-        while(T->d.tabelnuy_nomer<x){
-            T=T->next;i++;
+    else{// если удаляем элемент по средине списка
+        while(T->next->d.tabelnuy_nomer<x){// ищем нужный элемент
+            T=T->next;
         }
-        for(int j=0; j<i-1; j++)
-            R=R->next;
+        R=T;// устанавливаем указатель на предыдущий элемент
+        T=T->next;
 
-        if(T->d.tabelnuy_nomer==x && T->next==NULL){
+        if(T->d.tabelnuy_nomer==x && T->next==NULL){// если удаляемый элемент является последним
                 p=T;
                 R->next=NULL;
                 p->next=NULL;
@@ -1077,17 +1036,16 @@ void udal(int x){
                 return;
         }
         else
-        if (T->d.tabelnuy_nomer==x){
-                p=T;
-                R->next=R->next->next;
-                p->next=NULL;
-                delete p;
-                cout<<"Элемент успешно удален. Нажмите любую клавишу"<<endl;
-                getch();
-                return;
-        }
-        else
-            {puts("Такого элемента нет. Нажмите любую клавишу"); getch(); return;}
+            if (T->d.tabelnuy_nomer==x){
+                    p=T;
+                    R->next=R->next->next;// изменяем указатели
+                    p->next=NULL;
+                    delete p;
+                    cout<<"Элемент успешно удален. Нажмите любую клавишу"<<endl;
+                    getch();
+                    return;
+            }
+            else {puts("Такого элемента нет. Нажмите любую клавишу"); getch(); return;}// если удаляемый элемент не найден
     }
 }
 
@@ -1097,17 +1055,17 @@ void udal(int x){
 void sortByNum(){
     T=L;
     data dat;
-    while (T!= NULL){
+    while (T!= NULL){// обычная пузырьковая сортировка
         R=T->next;
         while (R!= NULL){
             if (sortNum) {//параметр
-                if ( T->d.tabelnuy_nomer > R->d.tabelnuy_nomer ) {
+                if ( T->d.tabelnuy_nomer > R->d.tabelnuy_nomer ) {// если нужно сортировать по возрастанию
                     dat=R->d;
                     R->d=T->d;
                     T->d=dat;
                 }
             } else {
-                if ( T->d.tabelnuy_nomer < R->d.tabelnuy_nomer ) {
+                if ( T->d.tabelnuy_nomer < R->d.tabelnuy_nomer ) {// если нужно сортировать по убыванию
                     dat=R->d;
                     R->d=T->d;
                     T->d=dat;
@@ -1125,17 +1083,17 @@ void sortByNum(){
 void sortByFio(){
     T=L;
     data dat;
-    while (T!= NULL){
+    while (T!= NULL){// обычная пузырьковая сортировка
         R=T->next;
         while (R!= NULL){
             if (sortFio) {//параметр
-                if ( strsravn(T->d.FIO, R->d.FIO) == 1 ){
+                if ( strsravn(T->d.FIO, R->d.FIO) == 1 ){// если нужно сортировать по возрастанию
                     dat=R->d;
                     R->d=T->d;
                     T->d=dat;
                 }
             } else {
-                if ( strsravn(T->d.FIO, R->d.FIO) == -1 ){
+                if ( strsravn(T->d.FIO, R->d.FIO) == -1 ){// если нужно сортировать по убыванию
                     dat=R->d;
                     R->d=T->d;
                     T->d=dat;
@@ -1153,17 +1111,17 @@ void sortByFio(){
 void sortByStag(){
     T=L;
     data dat;
-    while (T!= NULL){
+    while (T!= NULL){// обычная пузырьковая сортировка
         R=T->next;
         while (R!= NULL){
             if (sortStag) {//параметр
-                if ( T->d.stag_raboty > R->d.stag_raboty ) {
+                if ( T->d.stag_raboty > R->d.stag_raboty ) {// если нужно сортировать по возрастанию
                     dat=R->d;
                     R->d=T->d;
                     T->d=dat;
                 }
             } else {
-                if ( T->d.stag_raboty < R->d.stag_raboty ) {
+                if ( T->d.stag_raboty < R->d.stag_raboty ) {// если нужно сортировать по убыванию
                     dat=R->d;
                     R->d=T->d;
                     T->d=dat;
@@ -1215,34 +1173,34 @@ void sortirovka(){
                 break;
             default: break;
 
-        }
+        }// отрисовка пунктов сортировки в зависимости от подсвеченного текущего пункта
         ch=getch();
-        if (ch == 72) {
+        if (ch == 72) {// изменяем текущий выбираемый пункт стрелкой вверх
             i--;
             if(i < 1)
                 i=1;
         }
-        if (ch == 80) {
+        if (ch == 80) {// изменяем текущий выбираемый пункт стрелкой вниз
             i++;
             if(i>3)
                 i=3;
         }
-        if (ch == 27) {
+        if (ch == 27) {// выход если esc
             return;
         }
-        if (ch == 13) {
+        if (ch == 13) {// если выбран пункт сортировки
             switch (i){
                 case 1:
-                    sortNum = !sortNum;
-                    sortByNum();
+                    sortNum = !sortNum;// изменяем флаг сортировки на противоположный
+                    sortByNum();// функция сортировки
                     break;
                 case 2:
-                    sortFio = !sortFio;
-                    sortByFio();
+                    sortFio = !sortFio;// изменяем флаг сортировки на противоположный
+                    sortByFio();// функция сортировки
                     break;
                 case 3:
-                    sortStag = !sortStag;
-                    sortByStag();
+                    sortStag = !sortStag;// изменяем флаг сортировки на противоположный
+                    sortByStag();// функция сортировки
                     break;
                 default: break;
             }
@@ -1295,8 +1253,8 @@ Rabochiy* poiskByNum(){
     fflush(stdin);
     T=L;
     flag=0;
-    while(T!=NULL){
-        if(T->d.tabelnuy_nomer==tn){
+    while(T!=NULL){// цикл до конца списка
+        if(T->d.tabelnuy_nomer==tn){// если совпадают табельные номера
             TT = new Rabochiy;
             TT->d = T->d;
             TT->next = NULL;
@@ -1309,8 +1267,8 @@ Rabochiy* poiskByNum(){
 
 //-------------------------------------------------------------
 
-// функция поиска элемента по ФОИ - вернется список сотрудников с таким ФИО
-Rabochiy* poiskByFIO(){
+// функция поиска элемента по ппрофессии - вернется список сотрудников с таким ФИО
+Rabochiy* poiskByProf(){
     T=NULL;
     Rabochiy *TT = NULL;
     int flag;
@@ -1320,9 +1278,9 @@ Rabochiy* poiskByFIO(){
     fflush(stdin);
     T=L;
     flag=0;
-    while(T!=NULL){
-        if(strsravn(T->d.FIO,s) == 0){
-            if(TT == NULL){
+    while(T!=NULL){// цикл до конца списка
+        if(strsravn(T->d.proffesia,s) == 0){// если строки совпадают
+            if(TT == NULL){// если до этого не было найденных записей
                 TT = new Rabochiy;
                 TT->d = T->d;
                 TT->next = NULL;
@@ -1353,57 +1311,56 @@ void poisk(){
     setcolor(0,15);
     cout<<"Табельный номер"<<endl;
     setcolor(15,0);
-    cout<<"ФИО"<<endl;
+    cout<<"Профессия"<<endl;
     int ch,i=1;
     char k1=(char)16,k2=(char)17;
     while (1) {
-
-        ch=getch();
-        if (ch == 72) {
+        ch=getch();// считывание нажатой клавиши
+        if (ch == 72) {// если стрелка вверх
             i=1;
             gotoxy(0,1);
             setcolor(0,15);
-            cout<<"Табельный номер "<<endl;
+            cout<<"Табельный номер"<<endl;
             setcolor(15,0);
-            cout<<"ФИО "<<endl;
+            cout<<"Профессия"<<endl;
             cout<<"                  "<<endl;
         }
-        if (ch == 80) {
+        if (ch == 80) {// если стрелка вниз
             i=2;
             gotoxy(0,1);
             setcolor(15,0);
-            cout<<"Табельный номер "<<endl;
+            cout<<"Табельный номер"<<endl;
             setcolor(0,15);
-            cout<<"ФИО "<<endl;
+            cout<<"Профессия"<<endl;
             setcolor(15,0);
             cout<<"                  "<<endl;
         }
-        if (ch == 27) {
+        if (ch == 27) {// есди нажат esc
             return;
         }
-        if (ch == 13) {
+        if (ch == 13) {// если выбран пункт
             system("cls");
             cout<<"Введите ";
             switch (i){
-                case 1:
+                case 1:// если выбран 1 пункт - поиск по табельному номеру номеру
                     gotoxy(0,0);
                     cout<<"табельный номер "<<endl;
-                    T=poiskByNum();
+                    T=poiskByNum();// функция поиска
                     break;
-                case 2:
+                case 2:// если выбран 2 пункт - поиск по профессии
                     gotoxy(0,0);
-                    cout<<"ФИО работника "<<endl;
-                    T=poiskByFIO();
+                    cout<<"профессию работника "<<endl;
+                    T=poiskByProf();// функция поиска
                     break;
                 default: break;
             }
             break;
         }
     }
-    if(T == NULL){cout<<"Такого элемента нет в базе"<<endl;getch();return;}
+    if(T == NULL){cout<<"Такого элемента нет в базе"<<endl;getch();return;}// если элемент не найден
     else{
         table();
-        while(T!=NULL){
+        while(T!=NULL){// выводим все найденные записи, полученные из соответствующей функции поиска
             cout<<c<<setw(3)<<T->d.tabelnuy_nomer<<" "<<c<<setw(21)<<T->d.FIO;
             cout<<" "<<c<<setw(5)<<T->d.god_rogdenya<<" "<<c;
             if(T->d.pol==1)cout<<setw(2)<<"m"; else cout<<setw(2)<<"w";
@@ -1412,7 +1369,7 @@ void poisk(){
             cout<<" "<<c<<setw(3)<<T->d.nomer_uchastka<<" "<<c<<setw(6)<<T->d.zarplata<<" "<<c<<endl;
             T=T->next;
         }
-        table_niz();
+        table_niz(true);
         getch();
     }
 }
@@ -1481,9 +1438,9 @@ void Table(){
     int stag[7]={0,6,11,16,21,25,9999};
     int mass1[6][4]={0};
     int mass2[6][4]={0};
-    while(T!=NULL){
-        for(ii=1; ii<7; ii++){
-            if((T->d.stag_raboty < stag[ii]) && (T->d.stag_raboty > stag[ii - 1])){
+    while(T!=NULL){// идем до конца списка
+        for(ii=1; ii<7; ii++){// идем по заранее заготовленному массиву интервалов стажа
+            if((T->d.stag_raboty < stag[ii]) && (T->d.stag_raboty > stag[ii - 1])){// если стаж попадпет в интервал
                 mass1[ii - 1][(T->d.razrad - 1)]+=T->d.zarplata;
                 mass1[ii - 1][3]+=T->d.zarplata;
                 mass2[ii - 1][(T->d.razrad - 1)]++;
@@ -1495,41 +1452,41 @@ void Table(){
     clrscr();
     table1();
 
-    for(ii=0; ii<6; ii++){
+    for(ii=0; ii<6; ii++){// цикл на вывод собранной статистики
         switch(ii){
             case 0: cout<<c<<" До "<<stag[ii + 1]<<setw(11)<<c; break;
             case 1: cout<<c<<" C "<<stag[ii]<<" до "<<stag[ii + 1]<<setw(6)<<c; break;
             case 5: cout<<c<<" Свыше "<<stag[ii]<<setw(7)<<c; break;
             default: cout<<c<<" C "<<stag[ii]<<" до "<<stag[ii + 1]<<setw(5)<<c; break;
         }
-        if(mass2[ii][0]!= 0)
+        if(mass2[ii][0]!= 0)// при подсчете могут оказаться нули, а на 0 делить нельзя
             cout<<setw(7)<<mass1[ii][0]/mass2[ii][0]<<setw(7)<<c;
         else
             cout<<setw(7)<<0<<setw(7)<<c;
 
-        if(mass2[ii][1]!= 0)
+        if(mass2[ii][1]!= 0)// при подсчете могут оказаться нули, а на 0 делить нельзя
             cout<<setw(7)<<mass1[ii][1]/mass2[ii][1]<<setw(7)<<c;
         else
             cout<<setw(7)<<0<<setw(7)<<c;
 
-        if(mass2[ii][2]!= 0)
+        if(mass2[ii][2]!= 0)// при подсчете могут оказаться нули, а на 0 делить нельзя
             cout<<setw(7)<<mass1[ii][2]/mass2[ii][2]<<setw(7)<<c;
         else
             cout<<setw(7)<<0<<setw(7)<<c;
 
-        if(mass2[ii][3]!= 0)
+        if(mass2[ii][3]!= 0)// при подсчете могут оказаться нули, а на 0 делить нельзя
             cout<<setw(7)<<mass1[ii][3]/mass2[ii][3]<<setw(3)<<c;
         else
             cout<<setw(7)<<0<<setw(3)<<c;
         cout<<endl;
     }
     table1_niz();
-    while(1){
+    while(1){// цикл на получение ответа от пользователя и записи таблицы в файл
         ch=getch();
         if(ch == 27){
-                break;
-                }
-        if(ch == 19){
+            break;
+        }
+        if(ch == 19){// если пользователь нажал Ctrl+S для сохранения таблицы
             ofstream fout("table.txt", ios::out);
             for(ii=0; ii<6; ii++){
                 switch(ii){
@@ -1579,14 +1536,21 @@ int main(){
     while(1){
         kount=meny();
         switch(kount){
-            case 1: if(create_spisok()==1) sortNum=true; sortByNum(); break;
+            case 1: if(create_spisok()==1){sortNum=true; sortByNum();}break;
             case 2: system("cls");
-            if(L==NULL){
-            gotoxy(34,11);
-            cout<<"Список пуст"<<endl;
-            getch();
-            }else
-            {puts("Введите табельный номер"); scanf("%3d",&x); fflush(stdin); udal(x);}break;
+                if(L==NULL){
+                    gotoxy(34,11);
+                    cout<<"Список пуст"<<endl;
+                    getch();
+                }
+                else{
+                    puts("Введите табельный номер");
+                    fflush(stdin);
+                    scanf("%3d",&x);
+                    fflush(stdin);
+                    udal(x);
+                }
+                break;
             case 3: view(); break;
             case 4: write_spisok(); break;
             case 5: add(); break;
