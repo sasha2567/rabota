@@ -33,7 +33,7 @@ struct ins{
 
 // выходная структура
 struct outs{
-	char discp_code[7];
+	char group_code[7];
 	float mean_mark;
 	struct mark{
 		int excl;
@@ -846,24 +846,29 @@ int exportList(ln *head, char *path){
 	od.marks.good = head->in.marks.good;
 	od.marks.stfy = head->in.marks.stfy;
 	od.marks.bad = head->in.marks.bad;
-	strcpy(od.discp_code, head->in.discp_code);
+	strcpy(od.group_code, head->in.group_code);
 	long sum = head->in.marks.excl + head->in.marks.good + head->in.marks.stfy + head->in.marks.bad;
-
-	fprintf(fout2, "!==========================================================!\n");
-	fprintf(fout2, "! Шифр      ! Средний !          Количество оценок         !\n");
-	fprintf(fout2, "! дициплины !   бал   !====================================!\n");
-	fprintf(fout2, "!           !         !  Отлич !  Хорошо !  Удов  !  Неуд  !\n");
-	fprintf(fout2, "!===========!=========!========!=========!========!========!\n");
+    char *title[] = {
+        "!==========================================================!",
+        "! °шЇЁ      ! CЁхфэшщ !          KюышўхёЄтю юЎхэюъ         !",
+        "! уЁєяя     !   сры   !====================================!",
+        "!           !         !  OЄышў !  XюЁю°ю !  Yфют  !  Hхєф  !",
+        "!===========!=========!========!=========!========!========!"
+    };
+    for (int i = 0; i < 5; i++) {
+        fprintf(fout2, title[i]);
+        fprintf(fout2, "\n");
+    }
 
 	if (!head->next) {
-		fprintf(fout2, "!%6s     !%6.1f   !%6d  !%6d   !%6d   !%6d  !\n", od.discp_code,
+		fprintf(fout2, "!%6s     !%6.1f   !%6d  !%6d  !%6d   !%6d  !\n", od.group_code,
 					od.mean_mark/(sum != 0 ? sum : 1), od.marks.excl, od.marks.good, od.marks.stfy, od.marks.bad);
 	} else {
 		do {
-			if (strcmp(pointer->in.discp_code, pointer->prev->in.discp_code)) {
+			if (strcmp(pointer->in.group_code, pointer->prev->in.group_code)) {
 				od.mean_mark = od.mean_mark / (sum != 0 ? sum : 1);
 
-				fprintf(fout2, "!  %6s   !%6.1f   !%6d  !%6d   !%6d   !%6d  !\n", od.discp_code,
+				fprintf(fout2, "!  %6s   !%6.1f   !%6d  !%6d  !%6d   !%6d  !\n", od.group_code,
 						od.mean_mark, od.marks.excl, od.marks.good, od.marks.stfy, od.marks.bad);
 
 				od.mean_mark = 0.0;
@@ -871,7 +876,7 @@ int exportList(ln *head, char *path){
                 od.marks.good = 0;
                 od.marks.stfy = 0;
                 od.marks.bad = 0;
-				strcpy(od.discp_code, pointer->in.discp_code);
+				strcpy(od.group_code, pointer->in.group_code);
 				sum = 0;
 			}
 			od.mean_mark = od.mean_mark
@@ -888,11 +893,11 @@ int exportList(ln *head, char *path){
 			pointer = pointer->next;
 		} while (pointer);
 
-		fprintf(fout2, "!  %6s   !%6.1f   !%6d  !%6d   !%6d   !%6d  !\n", od.discp_code,
+		fprintf(fout2, "!  %6s   !%6.1f   !%6d  !%6d  !%6d   !%6d  !\n", od.group_code,
 					od.mean_mark/(sum != 0 ? sum : 1), od.marks.excl, od.marks.good, od.marks.stfy, od.marks.bad);
 	}
 
-	fprintf(fout2, "!=================================================!");
+	fprintf(fout2, "!==========================================================!");
 	fclose(fout);
 	fclose(fout2);
 
@@ -1012,7 +1017,7 @@ int BubbleSort(ln *head){
 	while (temp->next) {
 		temp2 = head;
 		while (temp2->next) {
-			if (strcmp(temp2->in.discp_code, temp2->next->in.discp_code) > 0) {
+			if (strcmp(temp2->in.group_code, temp2->next->in.group_code) > 0) {
 				buffer = temp2->in;
 				temp2->in = temp2->next->in;
 				temp2->next->in = buffer;
