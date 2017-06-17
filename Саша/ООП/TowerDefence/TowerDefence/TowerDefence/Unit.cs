@@ -11,7 +11,6 @@ namespace TowerDefence
     abstract class Unit
     {
         public Vector2 _position;
-        public Vector2 _originalposition;
         public Texture2D _texture;
         public Rectangle _rectangle;
         public Vector2 _screenPosition;
@@ -31,10 +30,38 @@ namespace TowerDefence
             _rotation = rotation;
         }
 
+        public float GetAngle()
+        {
+            if (_rotation == Direction.Down)
+            {
+                return -(float)Math.PI / 2;
+            }
+
+            if (_rotation == Direction.Up)
+            {
+                return (float)Math.PI / 2;
+            }
+
+            if (_rotation == Direction.Left)
+            {
+                return (float)Math.PI;
+            }
+
+            if (_rotation == Direction.Right)
+            {
+                return 0;
+            }
+            return 0;
+        }
+
         public virtual void Update(GameTime gameTime)
         {
-            _rectangle = new Rectangle((int)_screenPosition.X, (int)_screenPosition.Y, _texture.Height, _texture.Width);
-            _originalposition = new Vector2(_rectangle.Width / 2, _rectangle.Height / 2);
+           
+        }
+
+        public void Drav(SpriteBatch spritebatch)
+        {
+            spritebatch.Draw(_texture, _screenPosition, _rectangle, Color.White, GetAngle(), _position, 1.0f, SpriteEffects.None, 0);
         }
     }
 }

@@ -27,10 +27,44 @@ namespace TowerDefence
         public Rectangle _rectangle;
         public Vector2 _position;
 
+        List<Enemy> _enemies;
+        List<Tower> _towers;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+        }
+
+        private void AddTower(Vector2 position, Vector2 screenposition, Texture2D texture, Direction rotation, int hitPoint, int distance)
+        {
+            _towers.Add(
+                new Tower(
+                    position,
+                    screenposition,
+                    texture,
+                    rotation,
+                    hitPoint,
+                    distance
+                )
+            );
+        }
+
+        private void AddEnemy(Vector2 position, Vector2 screenposition, Texture2D texture, Direction rotation, Vector2 velosity, int hitPoints, State state)
+        {
+            _enemies.Add(
+                new Enemy(
+                    position,
+                    screenposition,
+                    texture,
+                    rotation,
+                    velosity,
+                    hitPoints,
+                    state
+                )
+            );
         }
 
         /// <summary>
@@ -42,15 +76,11 @@ namespace TowerDefence
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Enemy test = new Enemy(
-                new Vector2(0, 0), 
-                new Vector2(0, 0), 
-                new Texture2D(_graphics.GraphicsDevice, 10, 10), 
-                Direction.Right, 
-                new Vector2(0, 0), 
-                100, 
-                State.Live
-            );
+            _camera = new Camera(GraphicsDevice.Viewport);
+
+            _towers = new List<Tower>();
+            _enemies = new List<Enemy>();
+
             base.Initialize();
         }
 
@@ -86,6 +116,10 @@ namespace TowerDefence
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            AddTower(new Vector2(0, 0), new Vector2(0, 0), new Texture2D(_graphics.GraphicsDevice, 10, 10), Direction.Left, 100, 150);
+
+            AddEnemy(new Vector2(0, 0), new Vector2(0, 0), new Texture2D(_graphics.GraphicsDevice, 10, 10), Direction.Left, new Vector2(0, 0), 100, State.Live);
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -97,9 +131,13 @@ namespace TowerDefence
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Green);
 
             // TODO: Add your drawing code here
+
+            _spriteBatch.Begin();
+            _enemies[0].Drav(_spriteBatch);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
