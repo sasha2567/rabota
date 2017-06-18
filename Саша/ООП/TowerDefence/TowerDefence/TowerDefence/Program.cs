@@ -2,6 +2,10 @@
 
 namespace TowerDefence
 {
+    public enum State { Live, Dead };
+    public enum Direction { Up, Down, Left, Right };
+    public enum Level { One, Two, Three};
+
 #if WINDOWS || XBOX
     static class Program
     {

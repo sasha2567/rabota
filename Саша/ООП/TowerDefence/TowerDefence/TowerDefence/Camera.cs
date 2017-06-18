@@ -18,9 +18,9 @@ namespace TowerDefence
             _viev = newviev;
         }
 
-        public void Update(GameTime time, Game1 Knights)
+        public void Update(GameTime time, Game1 TD)
         {
-            _screenCenter = new Vector2(Knights._position.X + (Knights._rectangle.Width / 2) - 640, Knights._position.Y + (Knights._rectangle.Height / 2) - 360);
+            _screenCenter = new Vector2(TD._position.X + (TD._rectangle.Width / 2) - 640, TD._position.Y + (TD._rectangle.Height / 2) - 360);
             _matrixScreen = Matrix.CreateScale(new Vector3(1, 1, 1)) * Matrix.CreateTranslation(new Vector3(-_screenCenter.X, -_screenCenter.Y, 1));
         }
     }

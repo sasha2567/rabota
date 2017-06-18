@@ -7,17 +7,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TowerDefence
 {
-    public enum State { Live, Dead }
     class Enemy : MoveUnit
     {
         public int _hitPoints;
         public State _state;
+        public int _cost;
 
-        public Enemy(Vector2 position, Vector2 screenposition, Texture2D texture, Direction rotation, Vector2 velosity, int hitPoints, State state)
-            : base(position, screenposition, texture, rotation, velosity)
+        public Enemy(Vector2 position, Texture2D texture, Direction rotation, int hitPoints, State state, int cost)
+            : base(position, texture, rotation)
         {
             _hitPoints = hitPoints;
-            _state = state; 
+            _state = state;
+            _cost = cost;
         }
 
         public void Hitting(int damage)
@@ -27,6 +28,16 @@ namespace TowerDefence
             {
                 _state = State.Dead;
             }
+        }
+
+        public bool IsLive()
+        {
+            return _state ==State.Live ? true : false;
+        }
+
+        public void Update()
+        {
+            base.Update();
         }
     }
 }

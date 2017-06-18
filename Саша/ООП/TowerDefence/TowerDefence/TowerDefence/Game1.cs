@@ -16,20 +16,38 @@ namespace TowerDefence
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        public Rectangle _rectangle;
+        public Vector2 _position;
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         SpriteFont _sprite;
-
+        Camera _camera;
         KeyboardState _keyboardState;
         MouseState _mouseStatePreview, _mouseStateNow;
 
-        Camera _camera;
-        public Rectangle _rectangle;
-        public Vector2 _position;
-
         List<Enemy> _enemies;
-        List<Tower> _towers;
+        Player _player;
 
+        Texture2D[] _enemiesTexture;
+        Texture2D[] _towersTexture;
+
+        int temp = 0;
+        int counter = 0;
+
+        private void AddEnemy(Vector2 position, Texture2D texture, Direction rotation, int hitPoints, State state, int cost)
+        {
+            _enemies.Add(
+                new Enemy(
+                    position,
+                    texture,
+                    rotation,
+                    hitPoints,
+                    state,
+                    cost
+                )
+            );
+        }
+        
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -38,105 +56,75 @@ namespace TowerDefence
             _graphics.PreferredBackBufferHeight = 720;
         }
 
-        private void AddTower(Vector2 position, Vector2 screenposition, Texture2D texture, Direction rotation, int hitPoint, int distance)
-        {
-            _towers.Add(
-                new Tower(
-                    position,
-                    screenposition,
-                    texture,
-                    rotation,
-                    hitPoint,
-                    distance
-                )
-            );
-        }
-
-        private void AddEnemy(Vector2 position, Vector2 screenposition, Texture2D texture, Direction rotation, Vector2 velosity, int hitPoints, State state)
-        {
-            _enemies.Add(
-                new Enemy(
-                    position,
-                    screenposition,
-                    texture,
-                    rotation,
-                    velosity,
-                    hitPoints,
-                    state
-                )
-            );
-        }
-
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             _camera = new Camera(GraphicsDevice.Viewport);
+            _rectangle = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            _position = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
 
-            _towers = new List<Tower>();
+            _enemiesTexture = new Texture2D[15];
+            _towersTexture = new Texture2D[6];
             _enemies = new List<Enemy>();
+            _player = new Player(1000000);
+
+            //arrow = new Arrow(,,,,,,);
 
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _sprite =  Content.Load<SpriteFont>("SpriteFont1");
+            for (var i = 0; i < 15; i++)
+            {
+                _enemiesTexture[i] = Content.Load<Texture2D>("Enemies/TypeOne/image" + (i + 1));
+            }
+            Texture2D texture = Content.Load<Texture2D>("Tower/castle-first-level");
 
-            // TODO: use this.Content to load your game content here
+            _player.BuyTower(Level.One, 1000, new Vector2(150, 100), texture, Direction.Right, 100, 150);
+            
+            AddEnemy(new Vector2(150, 100), _enemiesTexture[0], Direction.Right, 100, State.Live, 100);
+
+            _enemies[0].SetVelosityVector(new Vector2(5, 0));
+
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            AddTower(new Vector2(0, 0), new Vector2(0, 0), new Texture2D(_graphics.GraphicsDevice, 10, 10), Direction.Left, 100, 150);
-
-            AddEnemy(new Vector2(0, 0), new Vector2(0, 0), new Texture2D(_graphics.GraphicsDevice, 10, 10), Direction.Left, new Vector2(0, 0), 100, State.Live);
-
-            // TODO: Add your update logic here
-
+            _camera.Update(gameTime, this);
+            if (temp % 5 == 0)
+            {
+                _enemies[0].Update();
+                _enemies[0].ChangeTexture(_enemiesTexture[counter]);
+                counter++;
+                if (counter > 14) counter = 0;
+            }
+            temp++;
+            foreach (var tower in _player._towers)
+            {
+                tower.Update();
+                var index = tower.GetAtackTarget(_enemies);
+            }
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Green);
-
-            // TODO: Add your drawing code here
-
             _spriteBatch.Begin();
+            foreach (var tower in _player._towers)
+            {
+                tower.Drav(_spriteBatch);
+            }
             _enemies[0].Drav(_spriteBatch);
+            _spriteBatch.DrawString(_sprite, _enemies[0]._screenPosition.X + " " + _enemies[0]._screenPosition.Y, new Vector2(400, 100), Color.White);
+            //_spriteBatch.DrawString(_sprite, _position.X + " " + _position.Y, new Vector2(400, 300), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);

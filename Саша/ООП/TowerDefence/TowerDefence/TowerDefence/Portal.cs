@@ -12,8 +12,8 @@ namespace TowerDefence
         public int _health;
         public State _state;
 
-        public Portal(Vector2 position, Vector2 screenposition, Texture2D texture, Direction rotation, int health, State state)
-            : base(position, screenposition, texture, rotation)
+        public Portal(Vector2 position, Texture2D texture, Direction rotation, int health, State state)
+            : base(position, texture, rotation)
         {
             _health = health;
             _state = state;

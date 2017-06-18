@@ -12,15 +12,20 @@ namespace TowerDefence
         
         public Vector2 _velosity;
         
-        public MoveUnit(Vector2 position, Vector2 screenposition, Texture2D texture, Direction rotation, Vector2 velosity)
-            : base(position, screenposition, texture, rotation)
+        public MoveUnit(Vector2 position, Texture2D texture, Direction rotation)
+            : base(position, texture, rotation)
         {
-            _velosity = velosity;
+
         }
 
         public void Rotate(Direction direction)
         {
             _rotation = direction;
+        }
+
+        public void SetVelosityVector(Vector2 velosity)
+        {
+            _velosity = velosity;
         }
         
         public void Move()
@@ -28,11 +33,10 @@ namespace TowerDefence
             _position += _velosity;
         }
 
-        public override void Update(GameTime gametime)
+        public void Update()
         {
-            _screenPosition.X = _position.X - _texture.Width / 2;
-            _screenPosition.Y = _position.Y - _texture.Height / 2;
-            _rectangle = new Rectangle((int)_screenPosition.X, (int)_screenPosition.Y, _texture.Height, _texture.Width);
+            base.Update();
+            Move();
         }
     }
 }
