@@ -19,6 +19,11 @@ namespace TowerDefence
             _state = state;
         }
 
+        public void Update()
+        {
+            base.Update();
+        }
+
         public void ComeEnemy()
         {
             _health--;

@@ -18,6 +18,12 @@ namespace TowerDefence
 
         }
 
+        public void Update()
+        {
+            base.Update();
+            Move();
+        }
+
         public void Rotate(Direction direction)
         {
             _rotation = direction;
@@ -31,12 +37,6 @@ namespace TowerDefence
         public void Move()
         {
             _position += _velosity;
-        }
-
-        public void Update()
-        {
-            base.Update();
-            Move();
         }
     }
 }

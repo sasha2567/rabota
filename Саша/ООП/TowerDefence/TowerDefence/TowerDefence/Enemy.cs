@@ -21,6 +21,11 @@ namespace TowerDefence
             _cost = cost;
         }
 
+        public void Update()
+        {
+            base.Update();
+        }
+
         public void Hitting(int damage)
         {
             _hitPoints -= damage;
@@ -33,11 +38,6 @@ namespace TowerDefence
         public bool IsLive()
         {
             return _state ==State.Live ? true : false;
-        }
-
-        public void Update()
-        {
-            base.Update();
         }
     }
 }

@@ -82,7 +82,7 @@ namespace TowerDefence
             }
             Texture2D texture = Content.Load<Texture2D>("Tower/castle-first-level");
 
-            _player.BuyTower(Level.One, 1000, new Vector2(150, 100), texture, Direction.Right, 100, 150);
+            _player.BuyTower(1000, 10000, new Vector2(150, 100), texture, Direction.Right, 100, 150);
             
             AddEnemy(new Vector2(150, 100), _enemiesTexture[0], Direction.Right, 100, State.Live, 100);
 
@@ -122,9 +122,10 @@ namespace TowerDefence
             {
                 tower.Drav(_spriteBatch);
             }
-            _enemies[0].Drav(_spriteBatch);
-            _spriteBatch.DrawString(_sprite, _enemies[0]._screenPosition.X + " " + _enemies[0]._screenPosition.Y, new Vector2(400, 100), Color.White);
-            //_spriteBatch.DrawString(_sprite, _position.X + " " + _position.Y, new Vector2(400, 300), Color.White);
+            foreach (var enemy in _enemies)
+            {
+                enemy.Drav(_spriteBatch);
+            }
             _spriteBatch.End();
 
             base.Draw(gameTime);

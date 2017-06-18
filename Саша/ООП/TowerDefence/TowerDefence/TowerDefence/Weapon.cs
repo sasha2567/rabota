@@ -18,6 +18,11 @@ namespace TowerDefence
             _damage = damage;
         }
 
+        public void Update()
+        {
+            base.Update();
+        }
+
         public void SetEnemy(Enemy enemy)
         {
             _enemy = enemy;

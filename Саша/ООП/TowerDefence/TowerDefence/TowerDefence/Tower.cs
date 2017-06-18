@@ -10,19 +10,42 @@ namespace TowerDefence
     class Tower : Unit
     {
         public int _hitPoint;
+        private Texture2D _arrowTexture;
         public List<Weapon> _arrows;
         public int _distance;
+        public int _cost;
+        public int _upgrateCost;
+        public Level _level;
 
-        public Tower(Vector2 position, Texture2D texture, Direction rotation, int hitPoint, int distance)
+        public Tower(Vector2 position, Texture2D texture, Direction rotation, int hitPoint, int distance, int cost, int upgrateCost)
             : base(position, texture, rotation)
         {
             _hitPoint = hitPoint;
             _distance = distance;
+            _cost = cost;
+            _upgrateCost = upgrateCost;
+            _level = Level.One;
+            _arrows = new List<Weapon>();
         }
 
-        public void Shoot(Vector2 position, Texture2D texture, Direction rotation, int damage, Enemy enemy)
+        public void Update()
         {
-            _arrows.Add(new Weapon(position, texture, rotation, damage));
+            base.Update();
+            foreach (var arrow in _arrows)
+            {
+                arrow.Update();
+            }
+        }
+
+        public void SetArrowTexture(Texture2D arrowTexture)
+        {
+            _arrowTexture = arrowTexture;
+        }
+
+
+        public void Shoot(int damage, Enemy enemy)
+        {
+            _arrows.Add(new Weapon(_position, _arrowTexture, _rotation, damage));
             _arrows[_arrows.Count - 1].SetEnemy(enemy);
         }
 
@@ -46,6 +69,15 @@ namespace TowerDefence
             Random rnd = new Random();
             var index = rnd.Next(enemysList.Count);
             return index;
+        }
+
+        public void UpgradeTower()
+        {
+            _distance += _distance / 2;
+            foreach (var arrow in _arrows)
+            {
+                arrow._damage += arrow._damage / 2;
+            }
         }
     }
 }

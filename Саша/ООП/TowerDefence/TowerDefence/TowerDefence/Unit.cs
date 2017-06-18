@@ -27,6 +27,18 @@ namespace TowerDefence
             _position = position;
         }
 
+        public void Update()
+        {
+            _angle = GetAngle();
+            _screenPosition.X = _position.X - _texture.Width / 2;
+            _screenPosition.Y = _position.Y - _texture.Height / 2;
+        }
+
+        public void Drav(SpriteBatch spritebatch)
+        {
+            spritebatch.Draw(_texture, _screenPosition, null, Color.White, _angle, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+        }
+
         public float GetAngle()
         {
             if (_rotation == Direction.Down)
@@ -54,18 +66,6 @@ namespace TowerDefence
         public void ChangeTexture(Texture2D texture)
         {
             _texture = texture;
-        }
-
-        public void Update()
-        {
-            _angle = GetAngle();
-            _screenPosition.X = _position.X - _texture.Width / 2;
-            _screenPosition.Y = _position.Y - _texture.Height / 2;
-        }
-
-        public void Drav(SpriteBatch spritebatch)
-        {
-            spritebatch.Draw(_texture, _screenPosition, null, Color.White, _angle, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
         }
     }
 }
