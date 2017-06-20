@@ -33,3 +33,4 @@ D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\D
 D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\obj\x86\Debug\TowerDefence.csprojResolveAssemblyReference.cache
 D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Tower\castle-first-level.xnb
 D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Tower\castle-second-level.xnb
+D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Weapon\arrow.xnb

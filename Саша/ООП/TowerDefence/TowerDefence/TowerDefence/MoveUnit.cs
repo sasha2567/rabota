@@ -10,7 +10,8 @@ namespace TowerDefence
     class MoveUnit : Unit
     {
         
-        public Vector2 _velosity;
+        protected int _velosity;
+        protected State _state;
         
         public MoveUnit(Vector2 position, Texture2D texture, Direction rotation)
             : base(position, texture, rotation)
@@ -29,14 +30,25 @@ namespace TowerDefence
             _rotation = direction;
         }
 
-        public void SetVelosityVector(Vector2 velosity)
+        public void SetVelosityVector(int velosity)
         {
             _velosity = velosity;
         }
         
         public void Move()
         {
-            _position += _velosity;
+            float x = _velosity * (float)Math.Cos((double)_angle);
+            float y = _velosity * (float)Math.Sin((double)_angle);
+            Vector2 velosity = new Vector2(x,y);
+            _position += velosity;
+        }
+
+        public override void Drav(SpriteBatch spritebatch)
+        {
+            if (_state == State.Live)
+            {
+                base.Drav(spritebatch);
+            }
         }
     }
 }

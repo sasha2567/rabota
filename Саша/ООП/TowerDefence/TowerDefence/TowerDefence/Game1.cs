@@ -25,29 +25,17 @@ namespace TowerDefence
         KeyboardState _keyboardState;
         MouseState _mouseStatePreview, _mouseStateNow;
 
-        List<Enemy> _enemies;
+        Map _map;
         Player _player;
 
-        Texture2D[] _enemiesTexture;
+        List<Texture2D> _enemiesTexture;
         Texture2D[] _towersTexture;
+        Texture2D[] _weaponTexture;
 
         int temp = 0;
         int counter = 0;
 
-        private void AddEnemy(Vector2 position, Texture2D texture, Direction rotation, int hitPoints, State state, int cost)
-        {
-            _enemies.Add(
-                new Enemy(
-                    position,
-                    texture,
-                    rotation,
-                    hitPoints,
-                    state,
-                    cost
-                )
-            );
-        }
-        
+        //-------------------------------------------------------------------Constructor--------------------------------------//
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -56,64 +44,70 @@ namespace TowerDefence
             _graphics.PreferredBackBufferHeight = 720;
         }
 
+        //-------------------------------------------------------------------Initialize---------------------------------------//
         protected override void Initialize()
         {
             _camera = new Camera(GraphicsDevice.Viewport);
             _rectangle = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             _position = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
 
-            _enemiesTexture = new Texture2D[15];
+            _enemiesTexture = new List<Texture2D>(15);
             _towersTexture = new Texture2D[6];
-            _enemies = new List<Enemy>();
+            _weaponTexture = new Texture2D[6];
             _player = new Player(1000000);
-
-            //arrow = new Arrow(,,,,,,);
 
             base.Initialize();
         }
 
+        //-------------------------------------------------------------------LoadContent--------------------------------------//
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _sprite =  Content.Load<SpriteFont>("SpriteFont1");
             for (var i = 0; i < 15; i++)
             {
-                _enemiesTexture[i] = Content.Load<Texture2D>("Enemies/TypeOne/image" + (i + 1));
+                _enemiesTexture.Add(Content.Load<Texture2D>("Enemies/TypeOne/image" + (i + 1)));
             }
-            Texture2D texture = Content.Load<Texture2D>("Tower/castle-first-level");
+            _towersTexture[0] = Content.Load<Texture2D>("Tower/castle-second-level");
+            _weaponTexture[0] = Content.Load<Texture2D>("Weapon/arrow");
 
-            _player.BuyTower(1000, 10000, new Vector2(150, 100), texture, Direction.Right, 100, 150);
-            
-            AddEnemy(new Vector2(150, 100), _enemiesTexture[0], Direction.Right, 100, State.Live, 100);
-
-            _enemies[0].SetVelosityVector(new Vector2(5, 0));
-
+            _player.BuyTower(1000, 10000, new Vector2(150, 100), _towersTexture[0], Direction.Right, 100, 250, _weaponTexture[0], Modificator.Poison);
+            _map = new Map(new Vector2(1000, 600), Content.Load<Texture2D>("Tower/castle-first-level"), _enemiesTexture);
+            _map.AddEnemy(new Vector2(250, 200), _enemiesTexture[0], Direction.Right, 100, State.Live, 100);
+            _map.AddEnemy(new Vector2(200, 200), _enemiesTexture[0], Direction.Right, 100, State.Live, 100);
+            _map.SetVelosity(1);
+            _map.SetModificator(Modificator.None, 0);
         }
 
+        //-------------------------------------------------------------------UnloadContent------------------------------------//
         protected override void UnloadContent()
         {
 
         }
 
+        //-------------------------------------------------------------------Update-------------------------------------------//
         protected override void Update(GameTime gameTime)
         {
             _camera.Update(gameTime, this);
-            if (temp % 5 == 0)
-            {
-                _enemies[0].Update();
-                _enemies[0].ChangeTexture(_enemiesTexture[counter]);
-                counter++;
-                if (counter > 14) counter = 0;
-            }
-            temp++;
+            _map.Update(gameTime);
             foreach (var tower in _player._towers)
             {
+                if (temp % 50 == 0) 
+                {
+                    var enemies = _map.GetEnemies();
+                    var index = tower.GetAtackTarget(enemies);
+                    if (index >= 0)
+                    {
+                        tower.Shoot(10, enemies[index], 10);
+                    }
+                }
                 tower.Update();
-                var index = tower.GetAtackTarget(_enemies);
             }
+            temp++;
             base.Update(gameTime);
         }
 
+        //-------------------------------------------------------------------Draw---------------------------------------------//
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Green);
@@ -121,13 +115,11 @@ namespace TowerDefence
             foreach (var tower in _player._towers)
             {
                 tower.Drav(_spriteBatch);
+                tower.DrawWeapons(_spriteBatch);
             }
-            foreach (var enemy in _enemies)
-            {
-                enemy.Drav(_spriteBatch);
-            }
+            _map.DrawEnemies(_spriteBatch);
+            //_spriteBatch.DrawString(_sprite, _map.GetEnemies()[0].GetVelosity() + " ", new Vector2(20, 100), Color.White);
             _spriteBatch.End();
-
             base.Draw(gameTime);
         }
     }

@@ -18,12 +18,13 @@ namespace TowerDefence
             _gold = gold;
         }
 
-        public void BuyTower(int cost, int upgradeCost, Vector2 position, Texture2D texture, Direction rotation, int hitPoint, int distance)
+        public void BuyTower(int cost, int upgradeCost, Vector2 position, Texture2D texture, Direction rotation, int hitPoint, int distance, Texture2D arrowTexture, Modificator modificator)
         {
             if (_gold - cost >= 0)
             {
                 _gold -= cost;
                 AddTower(position, texture, rotation, hitPoint, distance, cost, upgradeCost);
+                _towers[_towers.Count - 1].SetArrowTexture(arrowTexture, modificator);
             }
         }
 

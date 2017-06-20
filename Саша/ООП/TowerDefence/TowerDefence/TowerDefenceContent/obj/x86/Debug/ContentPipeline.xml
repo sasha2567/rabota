@@ -262,6 +262,15 @@
       <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Tower\castle-second-level.xnb</Output>
       <Time>2017-06-18T13:43:18.3508117+03:00</Time>
     </Item>
+    <Item>
+      <Source>Weapon\arrow.png</Source>
+      <Name>Weapon\arrow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Weapon\arrow.xnb</Output>
+      <Time>2017-06-18T19:22:53.4031792+03:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
