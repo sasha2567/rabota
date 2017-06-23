@@ -13,15 +13,17 @@ namespace TowerDefence
         private List<Texture2D> _enemiesTexture;
         private List<Vector2> _towersPosition;
         private Portal _portal;
-        private int _enemiesTextureIndex;
 
         public Map(Vector2 portalPosition, Texture2D portalTexture, List<Texture2D> enemiesTexture)
         {
             _portal = new Portal(portalPosition, portalTexture, Direction.Left, 100, State.Live);
             _enemiesTexture = enemiesTexture;
-            _enemiesTextureIndex = 0;
             _enemies = new List<Enemy>();
             _towersPosition = new List<Vector2>();
+            AddEnemy(new Vector2(450, 250), enemiesTexture[0], Direction.Right, 100, State.Live, 100);
+            AddEnemy(new Vector2(450, 200), enemiesTexture[0], Direction.Right, 100, State.Live, 100);
+            AddEnemy(new Vector2(400, 250), enemiesTexture[1], Direction.Right, 150, State.Live, 100);
+            AddEnemy(new Vector2(400, 200), enemiesTexture[1], Direction.Right, 150, State.Live, 100);
         }
 
         public void Update(GameTime gameTime)
@@ -40,12 +42,6 @@ namespace TowerDefence
             foreach (var enemy in _enemies.ToList())
             {
                 enemy.Update();
-                //enemy.ChangeTexture(_enemiesTexture[_enemiesTextureIndex]);
-                _enemiesTextureIndex++;
-                if (_enemiesTextureIndex >= _enemiesTexture.Count)
-                {
-                    _enemiesTextureIndex = 0;
-                }
                 if (!enemy.IsLive())
                 {
                     _enemies.Remove(enemy);

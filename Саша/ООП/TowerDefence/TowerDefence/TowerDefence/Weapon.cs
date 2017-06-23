@@ -9,12 +9,12 @@ namespace TowerDefence
 {
     class Weapon : MoveUnit
     {
-        public int _damage;
-        public Enemy _enemy;
+        protected int _damage;
+        protected Enemy _enemy;
         
-        private Modificator _modificator;
-        private int _modificatorTime;
-        private bool _hit = false;
+        protected Modificator _modificator;
+        protected int _modificatorTime;
+        protected bool _hit = false;
 
         public Weapon(Vector2 position, Texture2D texture, Direction rotation, int velosity, int damage)
             : base(position, texture, rotation)
@@ -99,6 +99,21 @@ namespace TowerDefence
                     _angle = angle;
                 }
             }
+        }
+
+        public void SetDamage(int damage)
+        {
+            _damage = damage;
+        }
+
+        public int GetDamage()
+        {
+            return _damage;
+        }
+
+        public Enemy GetEnemy()
+        {
+            return _enemy;
         }
     }
 }

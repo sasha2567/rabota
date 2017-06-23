@@ -18,19 +18,19 @@ namespace TowerDefence
             _gold = gold;
         }
 
-        public void Update()
+        public void Update(Map map, int time)
         {
             foreach (var tower in _towers)
             {
-                //if (temp % 50 == 0)
-                //{
-                //    var enemies = _map.GetEnemies();
-                //    var index = tower.GetAtackTarget(enemies);
-                //    if (index >= 0)
-                //    {
-                //        tower.Shoot(10, enemies[index], 10);
-                //    }
-                //}
+                if (time % 500 == 0)
+                {
+                    var enemies = map.GetEnemies();
+                    var index = tower.GetAtackTarget(enemies);
+                    if (index >= 0)
+                    {
+                        tower.Shoot(10, enemies[index], 10);
+                    }
+                }
                 tower.Update();
             }
         }

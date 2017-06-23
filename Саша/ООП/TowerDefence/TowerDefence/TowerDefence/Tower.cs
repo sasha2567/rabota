@@ -37,7 +37,7 @@ namespace TowerDefence
             foreach (var weapon in _weapons.ToList())
             {
                 weapon.Update();
-                if (weapon.GetHit())
+                if (weapon.GetHit() || weapon.GetEnemy().GetState() == State.Dead)
                 {
                     _weapons.Remove(weapon);
                 }
@@ -112,7 +112,7 @@ namespace TowerDefence
             _attacRange += _attacRange / 2;
             foreach (var arrow in _weapons.ToList())
             {
-                arrow._damage += arrow._damage / 2;
+                arrow.SetDamage(arrow.GetDamage() + arrow.GetDamage() / 2);
             }
         }
 

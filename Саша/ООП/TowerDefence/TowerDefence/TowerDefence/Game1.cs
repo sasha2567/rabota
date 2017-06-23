@@ -27,10 +27,14 @@ namespace TowerDefence
 
         Map _map;
         Player _player;
+        Interface _gameInterface;
 
         List<Texture2D> _enemiesTexture;
-        Texture2D[] _towersTexture;
-        Texture2D[] _weaponTexture;
+        List<Texture2D> _towersTexture;
+        List<Texture2D> _weaponTexture;
+        List<Texture2D> _moneyTexture;
+        Texture2D _backGround;
+        Texture2D _portal;
 
         //-------------------------------------------------------------------Constructor--------------------------------------//
         public Game1()
@@ -49,9 +53,12 @@ namespace TowerDefence
             _position = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
 
             _enemiesTexture = new List<Texture2D>(15);
-            _towersTexture = new Texture2D[6];
-            _weaponTexture = new Texture2D[6];
+            _towersTexture = new List<Texture2D>(6);
+            _weaponTexture = new List<Texture2D>(6);
+            _moneyTexture = new List<Texture2D>(3);
+
             _player = new Player(1000000);
+            _gameInterface = new Interface();
 
             base.Initialize();
         }
@@ -61,21 +68,33 @@ namespace TowerDefence
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _sprite =  Content.Load<SpriteFont>("SpriteFont1");
-            for (var i = 0; i < 15; i++)
-            {
-                _enemiesTexture.Add(Content.Load<Texture2D>("Enemies/TypeOne/image" + (i + 1)));
-            }
-            _towersTexture[0] = Content.Load<Texture2D>("Tower/castle-second-level");
-            _weaponTexture[0] = Content.Load<Texture2D>("Weapon/arrow");
 
-            _player.BuyTower(1000, 10000, new Vector2(150, 100), _towersTexture[0], Direction.Right, 100, 250, _weaponTexture[0], Modificator.Poison);
-            _map = new Map(new Vector2(1000, 600), Content.Load<Texture2D>("Tower/castle-first-level"), _enemiesTexture);
-            _map.AddEnemy(new Vector2(450, 250), _enemiesTexture[0], Direction.Right, 100, State.Live, 100);
-            _map.AddEnemy(new Vector2(450, 200), _enemiesTexture[0], Direction.Right, 100, State.Live, 100);
-            _map.AddEnemy(new Vector2(400, 250), _enemiesTexture[0], Direction.Right, 100, State.Live, 100);
-            _map.AddEnemy(new Vector2(400, 200), _enemiesTexture[0], Direction.Right, 100, State.Live, 100);
+            _enemiesTexture.Add(Content.Load<Texture2D>("Enemies/TypeOne/ship-one"));
+            _enemiesTexture.Add(Content.Load<Texture2D>("Enemies/TypeTwo/ship-two"));
+
+            _towersTexture.Add(Content.Load<Texture2D>("Tower/tower-one"));
+            _towersTexture.Add(Content.Load<Texture2D>("Tower/tower-two"));
+
+            _weaponTexture.Add(Content.Load<Texture2D>("Weapon/arrow"));
+
+            _moneyTexture.Add(Content.Load<Texture2D>("Other/bronze"));
+            _moneyTexture.Add(Content.Load<Texture2D>("Other/silver"));
+            _moneyTexture.Add(Content.Load<Texture2D>("Other/gold"));
+
+            _backGround = Content.Load<Texture2D>("Other/background");
+
+            _portal = Content.Load<Texture2D>("Tower/tower-two");
+
+            _player.BuyTower(1000, 10000, new Vector2(150, 100), _towersTexture[0], Direction.Right, 100, 500, _weaponTexture[0], Modificator.Poison);
+
+            _map = new Map(new Vector2(1000, 600), _portal, _enemiesTexture);
             _map.SetVelosity(1);
             _map.SetModificator(Modificator.None, 0);
+            
+            var costList = new List<int>();
+            costList.Add(1000);
+            costList.Add(10000);
+            costList.Add(100000);
         }
 
         //-------------------------------------------------------------------UnloadContent------------------------------------//
@@ -89,7 +108,7 @@ namespace TowerDefence
         {
             _camera.Update(gameTime, this);
             _map.Update(gameTime);
-            _player.Update();
+            _player.Update(_map, (int)gameTime.TotalGameTime.TotalMilliseconds);
             base.Update(gameTime);
         }
 
@@ -98,6 +117,7 @@ namespace TowerDefence
         {
             GraphicsDevice.Clear(Color.Green);
             _spriteBatch.Begin();
+            _spriteBatch.Draw(_backGround, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             _player.Draw(_spriteBatch);
             _map.DrawEnemies(_spriteBatch);
             //_spriteBatch.DrawString(_sprite, _map.GetEnemies()[0].GetPosition().Y + " ", new Vector2(20, 100), Color.White);

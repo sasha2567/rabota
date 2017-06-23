@@ -43,6 +43,11 @@ namespace TowerDefence
             _position += velosity;
         }
 
+        public State GetState()
+        {
+            return _state;
+        }
+
         public override void Drav(SpriteBatch spritebatch)
         {
             if (_state == State.Live)
