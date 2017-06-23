@@ -16,6 +16,7 @@ namespace TowerDefence
         private int _modificatorTime;
         private int _velosityBeforeModificators;
         private int _counter;
+        private bool _rotationFlag;
 
         public Enemy(Vector2 position, Texture2D texture, Direction rotation, int hitPoints, State state, int cost)
             : base(position, texture, rotation)
@@ -71,7 +72,7 @@ namespace TowerDefence
 
         public void SetVelosityVector(int velosity)
         {
-            _velosity = velosity;
+            base.SetVelosityVector(velosity);
             _velosityBeforeModificators = _velosity;
         }
 
@@ -94,6 +95,16 @@ namespace TowerDefence
         public int GetVelosity()
         { 
             return _velosity;
+        }
+
+        public void SetRotationFlag(bool flag)
+        {
+            _rotationFlag = flag;
+        }
+
+        public bool GetRotationFlag()
+        {
+            return _rotationFlag;
         }
     }
 }

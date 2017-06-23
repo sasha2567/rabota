@@ -27,7 +27,7 @@ namespace TowerDefence
 
         public void Rotate(Direction direction)
         {
-            _rotation = direction;
+            _direction = direction;
         }
 
         public void SetVelosityVector(int velosity)

@@ -72,7 +72,7 @@ namespace TowerDefence
         {
             if (CheckRange(enemy))
             {
-                _weapons.Add(new Weapon(_position, _arrowTexture, _rotation, velosity, damage));
+                _weapons.Add(new Weapon(_position, _arrowTexture, _direction, velosity, damage));
                 _weapons[_weapons.Count - 1].SetEnemy(enemy);
                 _weapons[_weapons.Count - 1].SetModificator(_modificator, _modificatorTime);
             }

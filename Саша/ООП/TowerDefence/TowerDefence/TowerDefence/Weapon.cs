@@ -40,10 +40,10 @@ namespace TowerDefence
 
         private bool ChechHit()
         {
-            if (_position.X >= _enemy.GetScreenPosition().X &&
-                _position.Y >= _enemy.GetScreenPosition().Y &&
-                _position.X <= _enemy.GetScreenPosition().X + _enemy.GetTextureWidth() &&
-                _position.Y <= _enemy.GetScreenPosition().Y + _enemy.GetTextureHeight()
+            if (_position.X >= _enemy.GetPosition().X &&
+                _position.Y >= _enemy.GetPosition().Y &&
+                _position.X <= _enemy.GetPosition().X + _enemy.GetTextureWidth() &&
+                _position.Y <= _enemy.GetPosition().Y + _enemy.GetTextureHeight()
             )
             {
                 return true;

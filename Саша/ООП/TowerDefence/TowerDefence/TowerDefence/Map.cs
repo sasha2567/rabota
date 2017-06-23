@@ -27,6 +27,7 @@ namespace TowerDefence
         public void Update(GameTime gameTime)
         {
             UpdateEnemies(gameTime);
+            CheckEnemies();
         }
 
         public void AddEnemy(Vector2 position, Texture2D texture, Direction rotation, int hitPoints, State state, int cost)
@@ -39,7 +40,7 @@ namespace TowerDefence
             foreach (var enemy in _enemies.ToList())
             {
                 enemy.Update();
-                enemy.ChangeTexture(_enemiesTexture[_enemiesTextureIndex]);
+                //enemy.ChangeTexture(_enemiesTexture[_enemiesTextureIndex]);
                 _enemiesTextureIndex++;
                 if (_enemiesTextureIndex >= _enemiesTexture.Count)
                 {
@@ -52,19 +53,100 @@ namespace TowerDefence
             }
         }
 
-        private bool Check2Enemy(Enemy one, Enemy two)
+        private bool CheckPositionX(Unit one, Unit two)
         {
-            
+            if (Math.Abs(one.GetPosition().X - two.GetPosition().X) <= one.GetHalfTextureWidth() + two.GetHalfTextureWidth()) return false;
+            return true;
+        }
+
+        private bool CheckTextureX(Unit one, Unit two)
+        {
+            if (Math.Abs(one.GetPosition().X - two.GetPosition().X) <= Math.Max(one.GetHalfTextureWidth(), two.GetHalfTextureWidth())) return false;
+            return true;
+        }
+
+        private bool CheckPositionY(Unit one, Unit two)
+        {
+            if (Math.Abs(one.GetPosition().Y - two.GetPosition().Y) <= one.GetHalfTextureHeight() + two.GetHalfTextureHeight()) return false;
+            return true;
+        }
+
+        private bool CheckTextureY(Unit one, Unit two)
+        {
+            if (Math.Abs(one.GetPosition().Y - two.GetPosition().Y) <= Math.Max(one.GetHalfTextureHeight(), two.GetHalfTextureHeight())) return false;
+            return true;
+        }
+
+        private bool Check2Position(Enemy one, Enemy two)
+        {
+            if (!CheckPositionX(one, two))
+            {
+                if (!CheckPositionY(one, two))
+                {
+                    if (one.GetPosition().X < two.GetPosition().X)
+                    {
+                        if (one.GetPosition().Y < two.GetPosition().Y)
+                        {
+                            if (!one.GetRotationFlag() && !two.GetRotationFlag())
+                            {
+                                one.SetDirection(Direction.Up);
+                                one.SetAngle(one.GetAngle());
+                                one.SetRotationFlag(true);
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (!one.GetRotationFlag() && !two.GetRotationFlag())
+                            {
+                                one.SetDirection(Direction.Down);
+                                one.SetAngle(one.GetAngle());
+                                one.SetRotationFlag(true);
+                                return true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (one.GetPosition().Y < two.GetPosition().Y)
+                        {
+                            if (!two.GetRotationFlag() && !one.GetRotationFlag())
+                            {
+                                two.SetDirection(Direction.Down);
+                                two.SetAngle(two.GetAngle());
+                                two.SetRotationFlag(true);
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (!two.GetRotationFlag() && !one.GetRotationFlag())
+                            {
+                                two.SetDirection(Direction.Up);
+                                two.SetAngle(two.GetAngle());
+                                two.SetRotationFlag(true);
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
             return false;
         }
 
         private void CheckEnemies()
         {
-            for (var i = 0; i < _enemies.Count-1; i++)
-            { 
-                for (var j = i + 1; j < _enemies.Count; j++) 
+            for (var i = 0; i < _enemies.Count - 1; i++)
+            {
+                for (var j = i + 1; j < _enemies.Count; j++)
                 {
-                    
+                    if (!Check2Position(_enemies[i], _enemies[j]) && !Check2Position(_enemies[j], _enemies[i]))
+                    {
+                        _enemies[i].SetDirection(Direction.Right);
+                        _enemies[i].SetAngle(_enemies[i].GetAngle());
+                        _enemies[j].SetDirection(Direction.Right);
+                        _enemies[j].SetAngle(_enemies[j].GetAngle());
+                    }
                 } 
             }
         }

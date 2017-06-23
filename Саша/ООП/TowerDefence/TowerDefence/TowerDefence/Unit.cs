@@ -11,42 +11,54 @@ namespace TowerDefence
     {
         protected Vector2 _position;
         protected Texture2D _texture;
-        protected Vector2 _screenPosition;
-        protected Direction _rotation;
+        protected Direction _direction;
         protected float _angle;
 
         public Unit()
         {
             _position = new Vector2(0, 0);
-            _rotation = 0;
+            _direction = 0;
         }
-        public Unit(Vector2 position, Texture2D texture, Direction rotation)
+        public Unit(Vector2 position, Texture2D texture, Direction direction)
         {
             _texture = texture;
-            _rotation = rotation;
+            _direction = direction;
             _position = position;
         }
 
         public void Update()
         {
-            //_angle = GetAngle();
-            _screenPosition.X = _position.X - _texture.Width / 2;
-            _screenPosition.Y = _position.Y - _texture.Height / 2;
+            if (_position.X < _texture.Width / 2)
+            {
+                _position.X = _texture.Width / 2;
+            }
+            if (_position.Y < _texture.Height / 2)
+            {
+                _position.Y = _texture.Height / 2;
+            }
+            if (_position.X > Game1._graphics.PreferredBackBufferWidth - _texture.Width / 2)
+            {
+                _position.X = Game1._graphics.PreferredBackBufferWidth - _texture.Width / 2;
+            }
+            if (_position.Y > Game1._graphics.PreferredBackBufferHeight - _texture.Height / 2)
+            {
+                _position.Y = Game1._graphics.PreferredBackBufferHeight - _texture.Height / 2;
+            }
         }
 
         public virtual void Drav(SpriteBatch spritebatch)
         {
-            spritebatch.Draw(_texture, _screenPosition, null, Color.White, _angle, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+            spritebatch.Draw(_texture, _position, null, Color.White, _angle, new Vector2(_texture.Width / 2, _texture.Height / 2), 1.0f, SpriteEffects.None, 0);
         }
 
         public float GetAngle()
         {
-            switch (_rotation)
+            switch (_direction)
             {
-                case Direction.Down : return -(float)Math.PI / 2; 
-                case Direction.Up : return (float)Math.PI / 2; 
-                case Direction.Left : return (float)Math.PI;
-                case Direction.Right : return 0;
+                case Direction.Down: return (float)Math.PI / 2;
+                case Direction.Up: return 3 * (float)Math.PI / 2;
+                case Direction.Left: return (float)Math.PI;
+                case Direction.Right: return 0;
                 default: return 0;
             }
         }
@@ -81,14 +93,14 @@ namespace TowerDefence
             return _position;
         }
 
-        public Vector2 GetScreenPosition()
-        {
-            return _screenPosition;
-        }
-
         public void SetDirection(Direction direction)
         {
-            _rotation = direction;
+            _direction = direction;
+        }
+
+        public void SetAngle(float angle)
+        {
+            _angle = angle;
         }
     }
 }
