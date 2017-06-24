@@ -9,14 +9,15 @@ namespace TowerDefence
 {
     class Enemy : MoveUnit
     {
-        public int _hitPoints;
-        public int _cost;
+        private int _hitPoints;
+        private int _cost;
         
         private Modificator _modificator;
         private int _modificatorTime;
         private int _velosityBeforeModificators;
         private int _counter;
         private bool _rotationFlag;
+        private int _updateInterval;
 
         public Enemy(Vector2 position, Texture2D texture, Direction rotation, int hitPoints, State state, int cost)
             : base(position, texture, rotation)
@@ -24,49 +25,53 @@ namespace TowerDefence
             _hitPoints = hitPoints;
             _state = state;
             _cost = cost;
+            SetAngle(GetAngle());
+            _updateInterval = 20;
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
-            switch (_modificator)
+            if (gameTime.TotalGameTime.Milliseconds % _updateInterval == 0)
             {
-                case Modificator.Poison:
-                    _velosity = (int)(_velosityBeforeModificators * 0.7);
-                    if (_counter % 5 == 0 && _modificatorTime > 0)
-                    {
-                        this.Hitting(5);
-                        _modificatorTime--;
-                    }
-                    base.Update();
-                    break;
-                case Modificator.Frozen:
-                    if (_counter % 5 == 0 && _modificatorTime > 0)
-                    {
-                        _velosity = (int)(_velosityBeforeModificators * 0.5);
-                    }
-                    base.Update();
-                    break;
-                case Modificator.Stun:
-                    _velosity = 0;
-                    break;
-                default:
-                    _velosity = _velosityBeforeModificators;
-                    base.Update();
-                    break;
+                base.Update();
             }
-            _counter++;
             if (_modificatorTime == 0)
             { 
-                _modificator = Modificator.None; 
+                _modificator = Modificator.None;
+                _velosity = _velosityBeforeModificators;
             }
         }
 
-        public void Hitting(int damage)
+        public void Hitting(int damage, Modificator modificaor = Modificator.None, int modificatorTime = 0)
         {
             _hitPoints -= damage;
             if (_hitPoints < 0)
             {
                 _state = State.Dead;
+            }
+            if (modificaor != Modificator.None)
+            {
+                _velosityBeforeModificators = _velosity;
+                _modificator = modificaor;
+                _modificatorTime = modificatorTime;
+                SetModificatorType();
+            }
+        }
+
+        public void SetModificatorType()
+        {
+            switch (_modificator)
+            {
+                case Modificator.Poison:
+                    _velosity = (int)(_velosityBeforeModificators * 0.7);
+                    this.Hitting(5);
+                    break;
+                case Modificator.Frozen:
+                    _velosity = (int)(_velosityBeforeModificators * 0.5);
+                    break;
+                case Modificator.Stun:
+                    _velosity = 0;
+                    break;
             }
         }
 

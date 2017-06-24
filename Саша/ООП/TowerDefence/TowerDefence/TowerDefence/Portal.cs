@@ -9,8 +9,8 @@ namespace TowerDefence
 {
     class Portal : Unit
     {
-        public int _countEnemies;
-        public State _state;
+        protected int _countEnemies;
+        protected State _state;
 
         public Portal(Vector2 position, Texture2D texture, Direction rotation, int countEnemies, State state)
             : base(position, texture, rotation)
@@ -19,15 +19,15 @@ namespace TowerDefence
             _state = state;
         }
 
-        public void Update()
-        {
-            base.Update();
-        }
-
-        public void ComeEnemy()
+        public void InComeEnemy()
         {
             _countEnemies--;
             if (_countEnemies <= 0) _state = State.Dead;
+        }
+
+        public State GetState()
+        {
+            return _state;
         }
     }
 }

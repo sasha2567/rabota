@@ -48,6 +48,11 @@ namespace TowerDefence
             return _state;
         }
 
+        public void Due()
+        {
+            _state = State.Dead;
+        }
+
         public override void Drav(SpriteBatch spritebatch)
         {
             if (_state == State.Live)

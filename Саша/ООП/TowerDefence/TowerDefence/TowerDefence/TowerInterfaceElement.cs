@@ -11,13 +11,13 @@ namespace TowerDefence
     class TowerInterfaceElement : InterfaceElement
     {
         private int _cost;
-        private Texture2D _selectTexture;
+        private Modificator _modificator;
 
-        public TowerInterfaceElement(Texture2D texture, Vector2 position, int cost, Texture2D selectTexture)
+        public TowerInterfaceElement(Texture2D texture, Vector2 position, int cost, Modificator modificator)
             : base(texture, position)
         {
             _cost = cost;
-            _selectTexture = selectTexture;
+            _modificator = modificator;
         }
 
         public void SetCost(int cost)
@@ -34,7 +34,7 @@ namespace TowerDefence
         {
             if (MouseOnElement(mouseState))
             {
-                spriteBatch.Draw(_selectTexture, GetPosition(), Color.White);
+                spriteBatch.Draw(_texture, GetPosition(), Color.White);
             }
         }
 

@@ -9,27 +9,53 @@ namespace TowerDefence
 {
     class Tower : Unit
     {
-        private int _hitPoint;
-        public List<Weapon> _weapons;
-        public int _attacRange;
-        public int _cost;
-        public int _upgrateCost;
-        public Level _level;
+        private List<Weapon> _weapons;
+        private int _weaponDamage;
+        private int _weaponSpeed;
+        private int _weaponAtackSpeed;
+        private int _attacRange;
+        private int _upgrateCost;
+        private Level _level;
 
         private Texture2D _arrowTexture;
         private Modificator _modificator;
         private int _modificatorTime;
+        private TowerState _towerState;
 
-        public Tower(Vector2 position, Texture2D texture, Direction rotation, int hitPoint, int distance, int cost, int upgrateCost)
-            : base(position, texture, rotation)
+        public Tower(Vector2 position, Texture2D texture, Direction direction, Modificator modificator)
+            : base(position, texture, direction)
         {
-            _hitPoint = hitPoint;
-            _attacRange = distance;
-            _cost = cost;
-            _upgrateCost = upgrateCost;
+            _modificator = modificator;
+            switch (_modificator)
+            {
+                case Modificator.Poison:
+                    _attacRange = Game1.poisonTowerRange;
+                    _upgrateCost = Game1.poisonTowerCost;
+                    _weaponDamage = Game1.poisonTowerDamage;
+                    _weaponSpeed = Game1.poisonTowerShellSpeed;
+                    _weaponAtackSpeed = Game1.poisonTowerShellSpeed;
+                    _arrowTexture = Game1.weaponTexture[1];
+                    break;
+                case Modificator.None:
+                    _attacRange = Game1.standartTowerRange;
+                    _upgrateCost = Game1.standartTowerCost;
+                    _weaponDamage = Game1.standartTowerDamage;
+                    _weaponSpeed = Game1.standartTowerShellSpeed;
+                    _weaponAtackSpeed = Game1.standartTowerShellSpeed;
+                    _arrowTexture = Game1.weaponTexture[0];
+                    break;
+            }
             _level = Level.One;
             _weapons = new List<Weapon>();
+            _towerState = TowerState.Buy;
         }
+
+        public Tower(Vector2 position, Texture2D texture, Direction direction)
+            : base(position, texture, direction)
+        {
+            SetAngle(GetAngle());
+        }
+        
 
         public void Update()
         {
@@ -68,17 +94,17 @@ namespace TowerDefence
         }
 
 
-        public void Shoot(int damage, Enemy enemy, int velosity)
+        public void Shoot(Enemy enemy)
         {
             if (CheckRange(enemy))
             {
-                _weapons.Add(new Weapon(_position, _arrowTexture, _direction, velosity, damage));
+                _weapons.Add(new Weapon(_position, _arrowTexture, Direction.Right, _weaponSpeed, _weaponDamage));
                 _weapons[_weapons.Count - 1].SetEnemy(enemy);
                 _weapons[_weapons.Count - 1].SetModificator(_modificator, _modificatorTime);
             }
         }
 
-        public List<Enemy> GetTargets(List<Enemy> enemys)
+        private List<Enemy> GetTargets(List<Enemy> enemys)
         {
             var result = new List<Enemy>();
             foreach (var enemy in enemys.ToList())

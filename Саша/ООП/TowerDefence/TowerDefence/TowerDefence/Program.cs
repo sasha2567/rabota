@@ -6,6 +6,8 @@ namespace TowerDefence
     public enum Direction { Up, Down, Left, Right };
     public enum Level { One, Two, Three};
     public enum Modificator { Poison, Stun, None, Frozen };
+    public enum GameState { Game, Menu, Win, Lose, Close };
+    public enum TowerState { Build, Buy };
 
 #if WINDOWS || XBOX
     static class Program

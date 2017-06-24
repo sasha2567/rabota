@@ -107,7 +107,7 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
-      <Time>2017-06-17T23:08:10.9724645+03:00</Time>
+      <Time>2017-06-23T17:40:02.5314359+03:00</Time>
     </Item>
     <Item>
       <Source>Weapon\arrow.png</Source>
@@ -116,7 +116,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Weapon\arrow.xnb</Output>
-      <Time>2017-06-18T19:22:53.4031792+03:00</Time>
+      <Time>2017-06-23T10:17:30.2031248+03:00</Time>
     </Item>
     <Item>
       <Source>Enemies\TypeTwo\ship-two.png</Source>
@@ -125,7 +125,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Enemies\TypeTwo\ship-two.xnb</Output>
-      <Time>2017-06-23T07:06:56.3007478+03:00</Time>
+      <Time>2017-06-23T10:10:23.2383086+03:00</Time>
     </Item>
     <Item>
       <Source>Enemies\TypeOne\ship-one.png</Source>
@@ -134,7 +134,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Enemies\TypeOne\ship-one.xnb</Output>
-      <Time>2017-06-23T07:07:20.4281278+03:00</Time>
+      <Time>2017-06-23T09:58:58.4831429+03:00</Time>
     </Item>
     <Item>
       <Source>Tower\Tower-One.png</Source>
@@ -143,7 +143,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Tower\Tower-One.xnb</Output>
-      <Time>2017-06-23T07:07:46.8036364+03:00</Time>
+      <Time>2017-06-23T09:59:40.9605725+03:00</Time>
     </Item>
     <Item>
       <Source>Tower\Tower-Two.png</Source>
@@ -152,7 +152,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Tower\Tower-Two.xnb</Output>
-      <Time>2017-06-23T07:07:46.8296379+03:00</Time>
+      <Time>2017-06-23T09:59:36.6773275+03:00</Time>
     </Item>
     <Item>
       <Source>Other\background.jpg</Source>
@@ -162,6 +162,60 @@
       <Options>None</Options>
       <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Other\background.xnb</Output>
       <Time>2017-06-23T08:43:56.4516414+03:00</Time>
+    </Item>
+    <Item>
+      <Source>Tower\portal.png</Source>
+      <Name>Tower\portal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Tower\portal.xnb</Output>
+      <Time>2017-06-23T09:33:42.6445312+03:00</Time>
+    </Item>
+    <Item>
+      <Source>Other\mouse.png</Source>
+      <Name>Other\mouse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Other\mouse.xnb</Output>
+      <Time>2017-06-23T12:48:43.4876918+03:00</Time>
+    </Item>
+    <Item>
+      <Source>Weapon\poison.png</Source>
+      <Name>Weapon\poison</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Weapon\poison.xnb</Output>
+      <Time>2017-06-23T10:17:55.2671632+03:00</Time>
+    </Item>
+    <Item>
+      <Source>Weapon\stun.png</Source>
+      <Name>Weapon\stun</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Weapon\stun.xnb</Output>
+      <Time>2017-06-23T10:18:22.4447177+03:00</Time>
+    </Item>
+    <Item>
+      <Source>Other\select.png</Source>
+      <Name>Other\select</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Other\select.xnb</Output>
+      <Time>2017-06-23T14:37:11.4789276+03:00</Time>
+    </Item>
+    <Item>
+      <Source>Other\template.png</Source>
+      <Name>Other\template</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Other\template.xnb</Output>
+      <Time>2017-06-23T16:53:24.1757808+03:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

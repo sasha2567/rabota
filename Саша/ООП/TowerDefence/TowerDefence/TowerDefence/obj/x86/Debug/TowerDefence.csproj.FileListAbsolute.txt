@@ -22,3 +22,9 @@ D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\D
 D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Tower\Tower-One.xnb
 D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Tower\Tower-Two.xnb
 D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Other\background.xnb
+D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Tower\portal.xnb
+D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Other\mouse.xnb
+D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Weapon\poison.xnb
+D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Weapon\stun.xnb
+D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Other\select.xnb
+D:\Работа\Саша\ООП\TowerDefence\TowerDefence\TowerDefence\bin\x86\Debug\Content\Other\template.xnb

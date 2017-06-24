@@ -12,24 +12,59 @@ namespace TowerDefence
         private List<Enemy> _enemies;
         private List<Texture2D> _enemiesTexture;
         private List<Vector2> _towersPosition;
+        private List<Vector2> _enemyRotatePosition;
         private Portal _portal;
+        private int _outCome;
+        private bool _outComeFlag;
+        private int _spawnInterval;
+        private int _updateInterval;
+        private int _upPositionLine;
+        private int _downPositionLine;
+        private int _leftPositionLine;
 
         public Map(Vector2 portalPosition, Texture2D portalTexture, List<Texture2D> enemiesTexture)
         {
-            _portal = new Portal(portalPosition, portalTexture, Direction.Left, 100, State.Live);
+            _portal = new Portal(portalPosition, portalTexture, Direction.Right, 100, State.Live);
             _enemiesTexture = enemiesTexture;
             _enemies = new List<Enemy>();
             _towersPosition = new List<Vector2>();
-            AddEnemy(new Vector2(450, 250), enemiesTexture[0], Direction.Right, 100, State.Live, 100);
-            AddEnemy(new Vector2(450, 200), enemiesTexture[0], Direction.Right, 100, State.Live, 100);
-            AddEnemy(new Vector2(400, 250), enemiesTexture[1], Direction.Right, 150, State.Live, 100);
-            AddEnemy(new Vector2(400, 200), enemiesTexture[1], Direction.Right, 150, State.Live, 100);
+            _outCome = 20;
+            _outComeFlag = true;
+            _spawnInterval = 100;
+            _updateInterval = 2;
+            _upPositionLine = 280;
+            _downPositionLine = 360;
+            _leftPositionLine = 50;
+            _enemyRotatePosition = new List<Vector2>();
+            _enemyRotatePosition.Add(new Vector2(_leftPositionLine, _upPositionLine));
+            _enemyRotatePosition.Add(new Vector2(_leftPositionLine, _downPositionLine));            
         }
 
         public void Update(GameTime gameTime)
         {
             UpdateEnemies(gameTime);
-            CheckEnemies();
+            CheckRotationEnemies();
+            CheckPortalEnemies();
+            OutComeEnemy(gameTime);
+        }
+
+        public void OutComeEnemy(GameTime gameTime)
+        {
+            if (_outComeFlag && (gameTime.TotalGameTime.Ticks % _spawnInterval == 0 || gameTime.TotalGameTime.Ticks < _spawnInterval))
+            {
+                AddEnemy(new Vector2(50, 0), _enemiesTexture[0], Direction.Down, 100, State.Live, 100);
+                _outCome--;
+                _enemies[_enemies.Count - 1].SetVelosityVector(1);
+                _enemies[_enemies.Count - 1].SetModificator(Modificator.None, 0);
+                AddEnemy(new Vector2(50, 640), _enemiesTexture[1], Direction.Up, 150, State.Live, 100);
+                _outCome--;
+                _enemies[_enemies.Count - 1].SetVelosityVector(1);
+                _enemies[_enemies.Count - 1].SetModificator(Modificator.None, 0);
+                if (_outCome <= 0)
+                {
+                    _outComeFlag = false;
+                }
+            }
         }
 
         public void AddEnemy(Vector2 position, Texture2D texture, Direction rotation, int hitPoints, State state, int cost)
@@ -39,112 +74,63 @@ namespace TowerDefence
 
         private void UpdateEnemies(GameTime gameTime)
         {
-            foreach (var enemy in _enemies.ToList())
+            if (gameTime.TotalGameTime.Ticks % _updateInterval == 0)
             {
-                enemy.Update();
-                if (!enemy.IsLive())
+                foreach (var enemy in _enemies.ToList())
                 {
-                    _enemies.Remove(enemy);
+                    enemy.Update();
+                    if (!enemy.IsLive())
+                    {
+                        _enemies.Remove(enemy);
+                    }
                 }
             }
         }
 
-        private bool CheckPositionX(Unit one, Unit two)
+        private void CheckRotationEnemies()
         {
-            if (Math.Abs(one.GetPosition().X - two.GetPosition().X) <= one.GetHalfTextureWidth() + two.GetHalfTextureWidth()) return false;
-            return true;
-        }
-
-        private bool CheckTextureX(Unit one, Unit two)
-        {
-            if (Math.Abs(one.GetPosition().X - two.GetPosition().X) <= Math.Max(one.GetHalfTextureWidth(), two.GetHalfTextureWidth())) return false;
-            return true;
-        }
-
-        private bool CheckPositionY(Unit one, Unit two)
-        {
-            if (Math.Abs(one.GetPosition().Y - two.GetPosition().Y) <= one.GetHalfTextureHeight() + two.GetHalfTextureHeight()) return false;
-            return true;
-        }
-
-        private bool CheckTextureY(Unit one, Unit two)
-        {
-            if (Math.Abs(one.GetPosition().Y - two.GetPosition().Y) <= Math.Max(one.GetHalfTextureHeight(), two.GetHalfTextureHeight())) return false;
-            return true;
-        }
-
-        private bool Check2Position(Enemy one, Enemy two)
-        {
-            if (!CheckPositionX(one, two))
+            foreach (var enemy in _enemies.ToList())
             {
-                if (!CheckPositionY(one, two))
+                foreach (var position in _enemyRotatePosition)
                 {
-                    if (one.GetPosition().X < two.GetPosition().X)
+                    if (enemy.GetPosition() == position)
                     {
-                        if (one.GetPosition().Y < two.GetPosition().Y)
-                        {
-                            if (!one.GetRotationFlag() && !two.GetRotationFlag())
-                            {
-                                one.SetDirection(Direction.Up);
-                                one.SetAngle(one.GetAngle());
-                                one.SetRotationFlag(true);
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (!one.GetRotationFlag() && !two.GetRotationFlag())
-                            {
-                                one.SetDirection(Direction.Down);
-                                one.SetAngle(one.GetAngle());
-                                one.SetRotationFlag(true);
-                                return true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (one.GetPosition().Y < two.GetPosition().Y)
-                        {
-                            if (!two.GetRotationFlag() && !one.GetRotationFlag())
-                            {
-                                two.SetDirection(Direction.Down);
-                                two.SetAngle(two.GetAngle());
-                                two.SetRotationFlag(true);
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (!two.GetRotationFlag() && !one.GetRotationFlag())
-                            {
-                                two.SetDirection(Direction.Up);
-                                two.SetAngle(two.GetAngle());
-                                two.SetRotationFlag(true);
-                                return true;
-                            }
-                        }
+                        enemy.SetDirection(Direction.Right);
+                        enemy.SetAngle(enemy.GetAngle());
                     }
                 }
+            }
+        }
+
+        private void CheckPortalEnemies()
+        {
+            foreach (var enemy in _enemies.ToList())
+            {
+                if (enemy.GetPosition().X == _portal.GetPosition().X && Math.Abs(enemy.GetPosition().Y - _portal.GetPosition().Y) <= _portal.GetHalfTextureHeight())
+                {
+                    enemy.Due();
+                    _portal.InComeEnemy();
+                }
+                
+            }
+        }
+
+        public bool IsNothingEnemy()
+        {
+            if (_enemies.Count == 0)
+            {
+                return true;
             }
             return false;
         }
 
-        private void CheckEnemies()
+        public bool IsDeadPortal()
         {
-            for (var i = 0; i < _enemies.Count - 1; i++)
+            if (_portal.GetState() == State.Dead)
             {
-                for (var j = i + 1; j < _enemies.Count; j++)
-                {
-                    if (!Check2Position(_enemies[i], _enemies[j]) && !Check2Position(_enemies[j], _enemies[i]))
-                    {
-                        _enemies[i].SetDirection(Direction.Right);
-                        _enemies[i].SetAngle(_enemies[i].GetAngle());
-                        _enemies[j].SetDirection(Direction.Right);
-                        _enemies[j].SetAngle(_enemies[j].GetAngle());
-                    }
-                } 
+                return true;
             }
+            return false;
         }
 
         public List<Enemy> GetEnemies()
@@ -176,9 +162,29 @@ namespace TowerDefence
             }
         }
 
+        public void DrawPortal(SpriteBatch spriteBatch)
+        {
+            _portal.Drav(spriteBatch);
+        }
+
         public void AddTowerPosition(Vector2 position)
         {
             _towersPosition.Add(position);
+        }
+
+        public int GetPositoinLeftLine()
+        {
+            return _leftPositionLine;
+        }
+
+        public int GetPositoinUpLine()
+        {
+            return _upPositionLine;
+        }
+
+        public int GetPositoinDownLine()
+        {
+            return _downPositionLine;
         }
     }
 }
