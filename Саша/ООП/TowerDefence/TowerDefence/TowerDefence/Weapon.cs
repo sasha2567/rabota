@@ -55,11 +55,6 @@ namespace TowerDefence
 
         }
 
-        public bool GetHit()
-        {
-            return _hit;
-        }
-
         public void SetEnemy(Enemy enemy)
         {
             _enemy = enemy;
@@ -76,7 +71,7 @@ namespace TowerDefence
             var distanceX = (int)Math.Abs(_position.X - _enemy.GetPosition().X);
             var distanceY = (int)Math.Abs(_position.Y - _enemy.GetPosition().Y);
             var distance = Math.Sqrt(distanceX * distanceX + distanceY * distanceY);
-            var angle = (float)Math.Acos(Math.Cos(distanceX / distance));
+            var angle = (float)Math.Acos(distanceX / distance);
             if (_position.X > _enemy.GetPosition().X)
             {
                 if (_position.Y > _enemy.GetPosition().Y)
@@ -96,7 +91,7 @@ namespace TowerDefence
                 }
                 else
                 {
-                    _angle = 2 * (float)Math.PI - angle;
+                    _angle = - angle;
                 }
             }
         }
@@ -114,6 +109,11 @@ namespace TowerDefence
         public Enemy GetEnemy()
         {
             return _enemy;
+        }
+
+        public bool GetHit()
+        {
+            return _hit;
         }
     }
 }

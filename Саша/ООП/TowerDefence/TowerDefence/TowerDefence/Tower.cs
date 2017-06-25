@@ -13,7 +13,7 @@ namespace TowerDefence
         private int _weaponDamage;
         private int _weaponSpeed;
         private int _weaponAtackSpeed;
-        private int _attacRange;
+        private int _atackRange;
         private int _upgrateCost;
         private Level _level;
 
@@ -29,20 +29,22 @@ namespace TowerDefence
             switch (_modificator)
             {
                 case Modificator.Poison:
-                    _attacRange = Game1.poisonTowerRange;
+                    _atackRange = Game1.poisonTowerRange;
                     _upgrateCost = Game1.poisonTowerCost;
                     _weaponDamage = Game1.poisonTowerDamage;
                     _weaponSpeed = Game1.poisonTowerShellSpeed;
                     _weaponAtackSpeed = Game1.poisonTowerShellSpeed;
                     _arrowTexture = Game1.weaponTexture[1];
+                    _modificatorTime = 10;
                     break;
                 case Modificator.None:
-                    _attacRange = Game1.standartTowerRange;
+                    _atackRange = Game1.standartTowerRange;
                     _upgrateCost = Game1.standartTowerCost;
                     _weaponDamage = Game1.standartTowerDamage;
                     _weaponSpeed = Game1.standartTowerShellSpeed;
                     _weaponAtackSpeed = Game1.standartTowerShellSpeed;
                     _arrowTexture = Game1.weaponTexture[0];
+                    _modificatorTime = 0;
                     break;
             }
             _level = Level.One;
@@ -50,25 +52,25 @@ namespace TowerDefence
             _towerState = TowerState.Buy;
         }
 
-        public Tower(Vector2 position, Texture2D texture, Direction direction)
-            : base(position, texture, direction)
-        {
-            SetAngle(GetAngle());
-        }
-        
-
         public void Update()
         {
             base.Update();
-            foreach (var weapon in _weapons.ToList())
+            if (_towerState == TowerState.Build)
             {
-                weapon.Update();
-                if (weapon.GetHit() || weapon.GetEnemy().GetState() == State.Dead)
+                foreach (var weapon in _weapons.ToList())
                 {
-                    _weapons.Remove(weapon);
+                    weapon.Update();
+                    if (weapon.GetHit() || weapon.GetEnemy().GetState() == State.Dead)
+                    {
+                        _weapons.Remove(weapon);
+                    }
                 }
             }
+        }
 
+        public void StandTower()
+        {
+            _towerState = TowerState.Build;
         }
 
         private bool CheckRange(Enemy enemy)
@@ -76,7 +78,7 @@ namespace TowerDefence
             var distanceX = (int)Math.Abs(_position.X - enemy.GetPosition().X);
             var distanceY = (int)Math.Abs(_position.Y - enemy.GetPosition().Y);
             var distance = Math.Sqrt(distanceX * distanceX + distanceY * distanceY);
-            if (distance <= _attacRange)
+            if (distance <= _atackRange)
             {
                 return true;
             }
@@ -90,7 +92,6 @@ namespace TowerDefence
         {
             _arrowTexture = arrowTexture;
             _modificator = modificator;
-            _modificatorTime = 10;
         }
 
 
@@ -110,7 +111,7 @@ namespace TowerDefence
             foreach (var enemy in enemys.ToList())
             {
                 var point = (int)Math.Sqrt(enemy.GetPosition().X * enemy.GetPosition().X + enemy.GetPosition().Y * enemy.GetPosition().Y);
-                if (point <= _attacRange)
+                if (point <= _atackRange)
                 {
                     result.Add(enemy);   
                 }
@@ -118,13 +119,13 @@ namespace TowerDefence
             return result;
         }
 
-        public int GetAtackTarget(List<Enemy> enemys)
+        public int GetAtackTarget(List<Enemy> enemies)
         {
-            if (enemys.Count > 0)
+            if (enemies.Count > 0)
             {
-                var enemysList = GetTargets(enemys);
+                var enemiesList = GetTargets(enemies);
                 Random rnd = new Random();
-                var index = rnd.Next(enemysList.Count);
+                var index = rnd.Next(enemiesList.Count);
                 return index;
             }
             else
@@ -133,9 +134,14 @@ namespace TowerDefence
             }
         }
 
+        public int GetAtackSpeed()
+        {
+            return _weaponAtackSpeed;
+        }
+
         public void UpgradeTower()
         {
-            _attacRange += _attacRange / 2;
+            _atackRange += _atackRange / 2;
             foreach (var arrow in _weapons.ToList())
             {
                 arrow.SetDamage(arrow.GetDamage() + arrow.GetDamage() / 2);
@@ -148,6 +154,11 @@ namespace TowerDefence
             {
                 arrow.Drav(spriteBatch);
             }
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            _position = position;
         }
     }
 }

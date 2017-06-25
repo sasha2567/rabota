@@ -130,15 +130,16 @@ namespace TowerDefence
             _selectTexture = Content.Load<Texture2D>("Other/select");
             _gameTitle = Content.Load<Texture2D>("Other/template");
 
-            //_player.BuyTower(1000, 10000, new Vector2(150, 100), _towersTexture[0], Direction.Right, 100, 500, _weaponTexture[0], Modificator.Poison);
+            _player.BuyTower(new Vector2(150, 200), towersTexture[0], Direction.Right, Modificator.Poison);
+            _player.StandTower();
 
             var portalPosition = new Vector2(_graphics.PreferredBackBufferWidth - _portal.Width / 2, _graphics.PreferredBackBufferHeight / 2);
             
             _map = new Map(portalPosition, _portal, _enemiesTexture);
             
             _gameInterface = new GameInterface(_gbTexture, _ebTexture, _rbTexture, _selectTexture);
-            _gameInterface.AddTowerElement(towersTexture[0], new Vector2(480, 535), poisonTowerCost, Modificator.Poison);
-            _gameInterface.AddTowerElement(towersTexture[1], new Vector2(270, 540), standartTowerCost, Modificator.None);
+            _gameInterface.AddTowerElement(towersTexture[0], new Vector2(480, 535), Modificator.Poison);
+            _gameInterface.AddTowerElement(towersTexture[1], new Vector2(270, 540), Modificator.None);
         }
 
         //-------------------------------------------------------------------UnloadContent------------------------------------//
@@ -171,6 +172,7 @@ namespace TowerDefence
                     break;
                 case GameState.Game:
                     _gameInterface.Update(_mouseState);
+                    _gameInterface.UpdateTowerElement(_player, _mouseState);
                     _map.Update(gameTime);
                     _player.Update(_map, gameTime);
                     if (_map.IsDeadPortal())
@@ -216,7 +218,7 @@ namespace TowerDefence
             //var i = 0;
             //foreach (var enemy in enemies)
             //{
-            //    _spriteBatch.DrawString(_sprite, enemy.GetPosition().X + " " + enemy.GetPosition().Y, enemy.GetPosition() + new Vector2(10, 10 + i * 10), Color.White);
+            _spriteBatch.DrawString(_sprite, _player.CountTower().ToString(), new Vector2(1000, 200), Color.White);
             //    i++;
             //}
             _spriteBatch.Draw(_mouseTexture, new Vector2(_mouseState.X, _mouseState.Y), Color.White);

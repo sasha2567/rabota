@@ -10,24 +10,12 @@ namespace TowerDefence
 {
     class TowerInterfaceElement : InterfaceElement
     {
-        private int _cost;
         private Modificator _modificator;
 
-        public TowerInterfaceElement(Texture2D texture, Vector2 position, int cost, Modificator modificator)
+        public TowerInterfaceElement(Texture2D texture, Vector2 position, Modificator modificator)
             : base(texture, position)
         {
-            _cost = cost;
             _modificator = modificator;
-        }
-
-        public void SetCost(int cost)
-        {
-            _cost = cost;
-        }
-
-        public int GetCost()
-        {
-            return _cost;
         }
 
         public void DravSelect(SpriteBatch spriteBatch, MouseState mouseState)
@@ -38,6 +26,9 @@ namespace TowerDefence
             }
         }
 
-
+        public Modificator GetModificator()
+        {
+            return _modificator;
+        }
     }
 }

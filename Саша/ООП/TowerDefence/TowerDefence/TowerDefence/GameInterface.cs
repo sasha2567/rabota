@@ -19,6 +19,7 @@ namespace TowerDefence
         private List<TowerInterfaceElement> _towersInterfaceElement;
         private GameState _gameState;
         private Texture2D _selectTexture;
+        private TowerState _towerState;
 
         public GameInterface(Texture2D gbTexture, Texture2D ebTexture, Texture2D rbTexture, Texture2D selectTexture)
         {
@@ -105,9 +106,9 @@ namespace TowerDefence
             _moneyInterfaceElement.SetValue(value);
         }
 
-        public void AddTowerElement(Texture2D texture, Vector2 position, int cost, Modificator modificator)
+        public void AddTowerElement(Texture2D texture, Vector2 position, Modificator modificator)
         {
-            _towersInterfaceElement.Add(new TowerInterfaceElement(texture, position, cost, modificator));
+            _towersInterfaceElement.Add(new TowerInterfaceElement(texture, position, modificator));
         }
 
         public void UpdateTowerElement(Player player, MouseState mouseState)
@@ -116,7 +117,9 @@ namespace TowerDefence
             {
                 if (tower.MouseOnElement(mouseState) && mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    
+                    player.BuyTower(tower.GetPosition(), tower.GetTexture(), Direction.Right, tower.GetModificator());
+                    player.MoveToverFromMouse(new Vector2(mouseState.X, mouseState.Y));
+                    break;
                 }
             }
         }

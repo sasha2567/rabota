@@ -34,9 +34,9 @@ namespace TowerDefence
             spriteBatch.Draw(_texture, _position, Color.White);
         }
 
-        public Vector2 GetTexture()
+        public Texture2D GetTexture()
         {
-            return new Vector2(_texture.Width, _texture.Height);
+            return _texture;
         }
 
         public bool MouseOnElement(MouseState mouseState)

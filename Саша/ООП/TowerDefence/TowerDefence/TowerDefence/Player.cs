@@ -59,6 +59,16 @@ namespace TowerDefence
             }
         }
 
+        public void MoveToverFromMouse(Vector2 position)
+        {
+            _towers[_towers.Count - 1].SetPosition(position);
+        }
+
+        public void StandTower()
+        {
+            _towers[_towers.Count - 1].StandTower();
+        }
+
         public void UpgradeTower(int cost, Texture2D newTexture, int index)
         {
             if (_gold - cost >= 0)
@@ -80,6 +90,11 @@ namespace TowerDefence
                 tower.Drav(spriteBatch);
                 tower.DrawWeapons(spriteBatch);
             }
+        }
+
+        public int CountTower()
+        {
+            return _towers.Count;
         }
     }
 }
