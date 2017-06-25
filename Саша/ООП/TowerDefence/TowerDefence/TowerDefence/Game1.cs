@@ -130,8 +130,8 @@ namespace TowerDefence
             _selectTexture = Content.Load<Texture2D>("Other/select");
             _gameTitle = Content.Load<Texture2D>("Other/template");
 
-            _player.BuyTower(new Vector2(150, 200), towersTexture[0], Direction.Right, Modificator.Poison);
-            _player.StandTower();
+            //_player.BuyTower(new Vector2(150, 200), towersTexture[0], Direction.Right, Modificator.Poison);
+            //_player.StandTower();
 
             var portalPosition = new Vector2(_graphics.PreferredBackBufferWidth - _portal.Width / 2, _graphics.PreferredBackBufferHeight / 2);
             
@@ -218,7 +218,8 @@ namespace TowerDefence
             //var i = 0;
             //foreach (var enemy in enemies)
             //{
-            _spriteBatch.DrawString(_sprite, _player.CountTower().ToString(), new Vector2(1000, 200), Color.White);
+            _spriteBatch.DrawString(_sprite, _map.GetEnemies()[0].GetPosition().X.ToString() + " " + _map.GetEnemies()[0].GetPosition().X.ToString(), new Vector2(1000, 200), Color.White);
+            //_spriteBatch.DrawString(_sprite, _player., new Vector2(1000, 200), Color.White);
             //    i++;
             //}
             _spriteBatch.Draw(_mouseTexture, new Vector2(_mouseState.X, _mouseState.Y), Color.White);
