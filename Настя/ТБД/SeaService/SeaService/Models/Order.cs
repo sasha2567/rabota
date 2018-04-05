@@ -14,8 +14,7 @@ namespace SeaService
 
         public int state { get; set; }
 
-        public Order(string _table, User _user, DateTime _date, int _state)
-            : base(_table)
+        public Order(User _user, DateTime _date, int _state)
         {
             this.user = _user;
             this.date = _date;

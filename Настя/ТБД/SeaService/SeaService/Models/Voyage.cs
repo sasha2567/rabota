@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SeaService
 {
-    class Flight : Model
+    public class Voyage : Model
     {
         public Location from { get; set; }
 
@@ -20,8 +20,7 @@ namespace SeaService
 
         public Vessel vessel { get; set; }
 
-        public Flight(string _table, Location _from, Location _to, DateTime _date, DateTime _time, int _duration, Vessel _vessel)
-            : base(_table)
+        public Voyage(Location _from, Location _to, DateTime _date, DateTime _time, int _duration, Vessel _vessel)
         {
             this.from = _from;
             this.to = _to;
@@ -29,6 +28,11 @@ namespace SeaService
             this.time = _time;
             this.duration = _duration;
             this.vessel = _vessel;
+        }
+
+        public string toSting()
+        {
+            return this.from.name + " - " + this.to.name;
         }
     }
 }

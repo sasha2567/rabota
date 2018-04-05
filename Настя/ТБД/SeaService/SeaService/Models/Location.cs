@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 
 namespace SeaService
 {
-    class Location : Model
+    public class Location : Model
     {
         public string name { get; set; }
 
         public string code { get; set; }
 
-        public Location(string _table, string _name, string _code)
-            : base(_table)
+        public Location(string _name, string _code)
         {
             this.name = _name;
             this.code = _code;
+        }
+
+        public string ToSting()
+        {
+            return this.name + " (" + this.code + ")";
         }
     }
 }

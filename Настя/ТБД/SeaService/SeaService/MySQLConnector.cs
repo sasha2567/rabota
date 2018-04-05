@@ -9,25 +9,35 @@ using MySql.Data.MySqlClient;
 using MySql.Data.Common;
 using MySql.Data;
 using MySql;
+using System.IO;
+using System.Data;
 
 namespace SeaService
 {
     class MySQLConnector
     {
-        string Connect = "";
-
         public MySqlConnection connection;
         public MySqlCommand command;
 
         public MySQLConnector()
         {
+            var server = "";
+            var user = "";
+            var password = "";
+            var database = "";
             connection = new MySqlConnection();
             MySqlConnectionStringBuilder mysqlCSB = new MySqlConnectionStringBuilder();
-            mysqlCSB.Server = "127.0.0.1";
-            mysqlCSB.Database = "ud";
-            mysqlCSB.UserID = "root";
-            mysqlCSB.Password = "";
-            mysqlCSB.Database = "seas";
+            using (var file = new StreamReader("base/connect.txt"))
+            {
+                server = file.ReadLine();
+                user = file.ReadLine();
+                password = file.ReadLine();
+                database = file.ReadLine();
+            }
+            mysqlCSB.Server = server;
+            mysqlCSB.UserID = user;
+            mysqlCSB.Password = password;
+            mysqlCSB.Database = database;
             connection.ConnectionString = mysqlCSB.ConnectionString;
         }
 
@@ -43,19 +53,24 @@ namespace SeaService
             }
         }
 
-        public void tryRequest(string request)
+        public DataTable tryRequest(string request)
         {
             command = new MySqlCommand(request, connection);
+            DataSet dataSet = new DataSet();
             Open();
             try
             {
                 command.ExecuteNonQuery();
+                MySqlDataAdapter dataAdapter = new MySqlDataAdapter(command);
+                dataAdapter.SelectCommand = command;
+                dataAdapter.Fill(dataSet);
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error2:" + e.Message);
+                MessageBox.Show("Ошибка:" + e.Message);
             }
             Close();
+            return dataSet.Tables[0];
         }
 
         public void Close()

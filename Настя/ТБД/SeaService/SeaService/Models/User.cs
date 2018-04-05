@@ -14,12 +14,14 @@ namespace SeaService
 
         public string password { get; set; }
 
-        public User(string _email, string _phone, string _password)
-            : base("user")
+        public int role { get; set; }
+
+        public User(string _email, string _phone, string _password, int _role)
         {
             this.email = _email;
             this.phone = _phone;
             this.password = _password;
+            this.role = _role;
         }
     }
 }
